@@ -7,7 +7,7 @@
   "scripts": {
     "start": "npx babel-node ./dev-server.js",
     "test": "npx babel-node ./test-server.js",
-    "download-webviewer": "npx @pdftron/webviewer-downloader --core-only --path ./lib",
+    "download-webviewer": "npx @pdftron/webviewer-downloader --v 6.3.3 --core-only --path ./lib",
     "cypress:open": "cypress open --project ./test/cypress",
     "cy:run": "cypress run --project \"./test/cypress\" --browser chrome",
     "lint": "eslint ./src/**/*.js",
