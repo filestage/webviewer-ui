@@ -2,6 +2,7 @@ import React from 'react';
 
 import SignatureToolButton from 'components/SignatureToolButton';
 import PageNav from 'components/PageNav';
+import ToggleMarkersSwitch from 'components/ToggleMarkersSwitch';
 
 import core from 'core';
 import getHashParams from 'helpers/getHashParams';
@@ -29,6 +30,12 @@ export default {
           element: 'pageNav',
         },
         { type: 'spacer' },
+        {
+          type: 'customElement',
+          render: () => <ToggleMarkersSwitch />,
+          dataElement: 'toggleMarkersSwitch',
+          element: 'toggleMarkersSwitch',
+        }
       ],
       tools: [
         { type: 'toolGroupButton', toolGroup: 'freeHandTools', dataElement: 'freeHandToolGroupButton', title: 'component.freehandToolsButton', showColor: 'active' },
