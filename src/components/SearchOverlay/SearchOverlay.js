@@ -425,7 +425,6 @@ class SearchOverlay extends React.PureComponent {
       isSearchPanelDisabled,
       results,
       searchValue,
-      activeResultIndex,
       isWildCardSearchDisabled,
     } = this.props;
 
@@ -455,9 +454,6 @@ class SearchOverlay extends React.PureComponent {
                 onKeyDown={this.onKeyDown}
                 value={searchValue}
               />
-            </div>
-            <div className="number-of-results">
-              {isSearchPanelOpen && <div>{`${activeResultIndex + 1} / ${results.length}`}</div>}
             </div>
             <div className="button previous" onClick={this.onClickPrevious}>
               <Icon glyph="ic_chevron_left_black_24px" />
@@ -510,6 +506,11 @@ class SearchOverlay extends React.PureComponent {
           </div>
           {!isSearchPanelOpen && this.state.noResultSingleSearch && searchValue !== '' && (
             <div className="no-result">{t('message.noResults')}</div>
+          )}
+          {!!results.length && (
+            <div className="no-result">
+              {t('message.resultsFound', {count: results.length})}
+            </div>
           )}
         </div>
       </div>

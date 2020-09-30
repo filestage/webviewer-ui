@@ -129,6 +129,7 @@
     "noAnnotations": "This document has no annotations.",
     "noOutlines": "This document has no outline.",
     "noResults": "No results found.",
+    "resultsFound": "{{count}} results found.",
     "notSupported": "That file type is not supported.",
     "passwordRequired": "Password required",
     "preparingToPrint": "Preparing to print...",
