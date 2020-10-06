@@ -1,0 +1,36 @@
+@import "../../constants/styles";
+@import "../../constants/overlay";
+
+.AnnotationToolsOverlay {
+  @extend %overlay;
+  width: auto;
+  top: 20px;
+  left: 50%;
+  margin-left: calc(-#{$right-panel-width} / 2 - 102.12px);
+  border-radius: 5px;
+  background: #2c2b3a;
+  border-color: #555555;
+  color: #f4f4f4;
+
+  .Button {
+    .Icon {
+      color: #f4f4f4;
+    }
+
+    &:hover:not(.disable) {
+      background: #686880;
+    }
+
+    &.active:not(.disable) {
+      background: #686880;
+
+      .Icon {
+        color: #ffffff;
+      }
+    }
+
+    &.down-arrow:after {
+      border-top: 6px solid #ffffff;
+    }
+  }
+}
