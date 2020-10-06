@@ -39,8 +39,6 @@ const TextPopup = () => {
 
   useEffect(() => {
     const textSelectTool = core.getTool('TextSelect');
-    const textHighlightTool = core.getTool('AnnotationCreateTextHighlight');
-    const textStrikeoutTool = core.getTool('AnnotationCreateTextStrikeout');
 
     const onSelectionComplete = (startQuad, allQuads) => {
       if (popupRef.current && popupItems.length > 0) {
@@ -49,24 +47,8 @@ const TextPopup = () => {
       }
     };
 
-    const onAnnotationAdded = ({ PageNumber, Quads }) => {
-      if (popupRef.current && popupItems.length > 0) {
-        setPosition(
-          getTextPopupPositionBasedOn({ [PageNumber - 1]: Quads }, popupRef)
-        );
-        dispatch(actions.openElement("textPopup"));
-      }
-    };
-
     textSelectTool.on('selectionComplete', onSelectionComplete);
-    textHighlightTool.on('annotationAdded', onAnnotationAdded);
-    textStrikeoutTool.on('annotationAdded', onAnnotationAdded);
-
-    return () => {
-      textSelectTool.off('selectionComplete', onSelectionComplete);
-      textHighlightTool.off('annotationAdded', onAnnotationAdded);
-      textStrikeoutTool.off('annotationAdded', onAnnotationAdded);
-    };
+    return () => textSelectTool.off('selectionComplete', onSelectionComplete);
   }, [dispatch, popupItems]);
 
   return isDisabled ? null : (
