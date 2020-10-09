@@ -5,7 +5,7 @@ import './AnnotationToolsOverlay.scss';
 
 const AnnotationToolsOverlay = () => {
   return (
-    <div className="Overlay AnnotationToolsOverlay hide-in-mobile" data-element="annotationToolsOverlay">
+    <div className="Overlay AnnotationToolsOverlay" data-element="annotationToolsOverlay">
       <ToolButton
         toolName="AnnotationCreateTextHighlight"
       />
