@@ -64,6 +64,8 @@ export default initialState => (state = initialState, action) => {
       };
     case 'SET_ACTIVE_HEADER_GROUP':
       return { ...state, activeHeaderGroup: payload.headerGroup };
+    case 'SET_ACTIVE_TEXT_ANNOTATION':
+      return { ...state, activeTextAnnotation: payload.activeTextAnnotation };
     case 'SET_ACTIVE_TOOL_NAME':
       return { ...state, activeToolName: payload.toolName };
     case 'SET_ACTIVE_TOOL_STYLES':

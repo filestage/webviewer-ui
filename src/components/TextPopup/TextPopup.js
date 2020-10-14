@@ -16,11 +16,12 @@ import selectors from 'selectors';
 import './TextPopup.scss';
 
 const TextPopup = () => {
-  const [isDisabled, isOpen, popupItems] = useSelector(
+  const [isDisabled, isOpen, popupItems, activeTextAnnotation] = useSelector(
     state => [
       selectors.isElementDisabled(state, 'textPopup'),
       selectors.isElementOpen(state, 'textPopup'),
       selectors.getPopupItems(state, 'textPopup'),
+      selectors.getActiveTextAnnotation(state),
     ],
     shallowEqual,
   );
@@ -51,6 +52,8 @@ const TextPopup = () => {
     return () => textSelectTool.off('selectionComplete', onSelectionComplete);
   }, [dispatch, popupItems]);
 
+  const isActive = textAnnotation => activeTextAnnotation === textAnnotation;
+
   return isDisabled ? null : (
     <div
       className={classNames({
@@ -80,6 +83,7 @@ const TextPopup = () => {
               Annotations.TextHighlightAnnotation,
             )
           }
+          isActive={isActive("highlight")}
         />
         <ActionButton
           dataElement="textUnderlineToolButton"
@@ -113,6 +117,7 @@ const TextPopup = () => {
             )
           }
           dataElement="textStrikeoutToolButton"
+          isActive={isActive("strikeout")}
         />
         <ActionButton
           title="tool.Link"
