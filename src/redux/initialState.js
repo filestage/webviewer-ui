@@ -23,6 +23,7 @@ export default {
       default: [
         { type: 'toggleElementButton', dataElement: 'searchButton', element: 'searchOverlay', img: 'ic_search_black_24px', title: 'component.searchOverlay' },
         { type: 'toggleElementButton', img: 'ic_viewer_settings_black_24px', element: 'viewControlsOverlay', dataElement: 'viewControlsButton', title: 'component.viewControlsOverlay' },
+        { type: 'divider' },
         { type: 'actionButton', img: 'ic_zoom_out_black_24px', onClick: zoomOut, title: 'action.zoomOut', dataElement: 'zoomOutButton', hidden: ['mobile'] },
         { type: 'actionButton', img: 'ic_zoom_in_black_24px', onClick: zoomIn, title: 'action.zoomIn', dataElement: 'zoomInButton', hidden: ['mobile'] },
         {
@@ -32,7 +33,7 @@ export default {
           hidden: ['mobile'],
           element: 'zoomOverlay',
         },
-        { type: 'spacer' },
+        { type: 'divider' },
         {
           type: 'customElement',
           render: () => <PageNav />,
