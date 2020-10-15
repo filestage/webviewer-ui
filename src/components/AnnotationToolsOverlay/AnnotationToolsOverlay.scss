@@ -1,20 +1,41 @@
 @import "../../constants/styles";
 @import "../../constants/overlay";
+@import "../../constants/popup";
 
 .AnnotationToolsOverlay {
   @extend %overlay;
   width: auto;
   top: 20px;
   left: 50%;
-  margin-left: calc(-#{$right-panel-width} / 2 - 102.12px);
+  margin-left: calc(-#{$right-panel-width} / 2 - 70px);
+  padding: 0;
   border-radius: 5px;
   background: #2c2b3a;
   border-color: #555555;
   color: #f4f4f4;
 
+  @include mobile {
+    top: calc(#{$panel-height} + 20px);
+    left: calc(50% - 70px);
+    margin: 0;
+  }
+
   .Button {
+    height: $popup-button-height;
+
+    @include mobile {
+      height: $popup-button-height;
+    }
+
     .Icon {
       color: #f4f4f4;
+      width: $popup-icon-width;
+      height: $popup-icon-height;
+
+      @include mobile {
+        width: $popup-icon-width;
+        height: $popup-icon-height;
+      }
     }
 
     &:hover:not(.disable) {
