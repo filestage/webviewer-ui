@@ -39,7 +39,10 @@
     "type": "Type",
     "upload": "Upload",
     "link": "Link",
-    "fileAttachmentDownload": "Download attached file"
+    "fileAttachmentDownload": "Download attached file",
+    "hideMarkers": "Hide markers",
+    "prevPage": "Show previous page",
+    "nextPage": "Show next page"
   },
   "annotation": {
     "areaMeasurement": "Area measurement",

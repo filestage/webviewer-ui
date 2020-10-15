@@ -39,7 +39,10 @@
     "type": "Art",
     "upload": "Hochladen",
     "link": "Verknüpfung",
-    "fileAttachmentDownload": "Laden Sie die angehängte Datei herunter"
+    "fileAttachmentDownload": "Laden Sie die angehängte Datei herunter",
+    "hideMarkers": "Marker ausblenden",
+    "prevPage": "Vorherige Seite zeigen",
+    "nextPage": "Nächste Seite zeigen"
   },
   "annotation": {
     "areaMeasurement": "Flächenmessung",

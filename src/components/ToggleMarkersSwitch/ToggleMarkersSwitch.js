@@ -1,11 +1,12 @@
 import React from "react";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Switch from "@material-ui/core/Switch";
+import { createMuiTheme } from "@material-ui/core/styles";
+import { ThemeProvider } from "@material-ui/styles";
+import { useTranslation } from "react-i18next";
 
 import core from "core";
 import "./ToggleMarkersSwitch.scss";
-
-import { createMuiTheme } from "@material-ui/core/styles";
-import { ThemeProvider } from "@material-ui/styles";
 
 const theme = createMuiTheme({
   palette: {
@@ -16,17 +17,24 @@ const theme = createMuiTheme({
 });
 
 const ToggleMarkersSwitch = () => {
+  const [t] = useTranslation();
+
   return (
     <ThemeProvider theme={theme}>
-      <Switch
-        color="primary"
-        onChange={(evt) => {
-          if (evt.target.checked) {
-            core.hideAnnotations(core.getAnnotationsList());
-          } else {
-            core.showAnnotations(core.getAnnotationsList());
-          }
-        }}
+      <FormControlLabel
+        control={
+          <Switch
+            color="primary"
+            onChange={(evt) => {
+              if (evt.target.checked) {
+                core.hideAnnotations(core.getAnnotationsList());
+              } else {
+                core.showAnnotations(core.getAnnotationsList());
+              }
+            }}
+          />
+        }
+        label={t("action.hideMarkers")}
       />
     </ThemeProvider>
   );

@@ -39,7 +39,10 @@
     "type": "Type",
     "upload": "Télécharger",
     "link": "Lien",
-    "fileAttachmentDownload": "Télécharger le fichier joint"
+    "fileAttachmentDownload": "Télécharger le fichier joint",
+    "hideMarkers": "Cacher les marqueurs",
+    "prevPage": "Afficher la page précédente",
+    "nextPage": "Afficher la page suivante"
   },
   "annotation": {
     "areaMeasurement": "Surface mesurée",
