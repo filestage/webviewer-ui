@@ -33,12 +33,14 @@ export default {
           hidden: ['mobile'],
           element: 'zoomOverlay',
         },
-        { type: 'divider' },
+        { 
+          type: 'divider',
+          hidden: ['mobile'],
+        },
         {
           type: 'customElement',
           render: () => <PageNav />,
           dataElement: 'pageNavButton',
-          hidden: ['mobile'],
           element: 'pageNav',
         },
         { type: 'spacer' },

@@ -1,6 +1,7 @@
 import React from "react";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Switch from "@material-ui/core/Switch";
+import Hidden from "@material-ui/core/Hidden";
 import { createMuiTheme } from "@material-ui/core/styles";
 import { ThemeProvider } from "@material-ui/styles";
 import { useTranslation } from "react-i18next";
@@ -34,7 +35,7 @@ const ToggleMarkersSwitch = () => {
             }}
           />
         }
-        label={t("action.hideMarkers")}
+        label={<Hidden xsDown>{t("action.hideMarkers")}</Hidden>}
       />
     </ThemeProvider>
   );
