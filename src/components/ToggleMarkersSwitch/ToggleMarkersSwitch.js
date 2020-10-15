@@ -15,6 +15,10 @@ const theme = createMuiTheme({
       main: "#13d83a",
     },
   },
+  typography: {
+    fontFamily: ["'Lato'", "sans-serif"].join(","),
+    htmlFontSize: 10,
+  },
 });
 
 const ToggleMarkersSwitch = () => {
