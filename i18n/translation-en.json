@@ -58,7 +58,7 @@
     "freehand2": "Free hand",
     "freetext": "Free text",
     "freetext2": "Free text",
-    "highlight": "Highlight",
+    "highlight": "Highlight text",
     "highlight2": "Highlight",
     "line": "Line",
     "perimeterMeasurement": "Perimeter measurement",
@@ -70,8 +70,8 @@
     "signature": "Signature",
     "squiggly": "Squiggly",
     "stamp": "Stamp",
-    "stickyNote": "Comment",
-    "strikeout": "Strikeout",
+    "stickyNote": "Create a comment",
+    "strikeout": "Strikethrough text",
     "underline": "Underline",
     "custom": "Custom",
     "rubberStamp": "Rubber Stamp"
@@ -104,7 +104,7 @@
   "component": {
     "freehandToolsButton": "Freehand tools",
     "leftPanel": "Panel",
-    "searchOverlay": "Search",
+    "searchOverlay": "Search document",
     "menuOverlay": "Menu",
     "miscToolsButton": "Misc tools",
     "notesPanel": "Notes",
@@ -118,7 +118,7 @@
     "thumbnailsPanel": "Thumbnails",
     "toolsButton": "Tools",
     "redaction": "Redaction",
-    "viewControlsOverlay": "View controls",
+    "viewControlsOverlay": "Layout settings",
     "measurementToolsButton": "Measurement tools",
     "calibration": "Calibration"
   },
