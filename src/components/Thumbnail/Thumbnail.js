@@ -11,7 +11,7 @@ import ThumbnailControls from "components/ThumbnailControls";
 
 import "./Thumbnail.scss";
 
-const THUMBNAIL_SIZE = 210;
+const THUMBNAIL_SIZE = 120;
 const THUMBNAIL_SIZE_M = 80;
 
 export const getThumbnailSize = () =>
