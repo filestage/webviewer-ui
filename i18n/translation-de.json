@@ -42,7 +42,8 @@
     "fileAttachmentDownload": "Laden Sie die angehängte Datei herunter",
     "hideMarkers": "Marker ausblenden",
     "prevPage": "Vorherige Seite zeigen",
-    "nextPage": "Nächste Seite zeigen"
+    "nextPage": "Nächste Seite zeigen",
+    "selectToComment": "Select text to leave a comment"
   },
   "annotation": {
     "areaMeasurement": "Flächenmessung",

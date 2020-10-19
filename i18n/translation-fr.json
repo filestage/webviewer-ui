@@ -74,7 +74,8 @@
     "strikeout": "Barré",
     "underline": "Soulignage",
     "custom": "personnalisation",
-    "rubberStamp": "Rubber Stamp"
+    "rubberStamp": "Rubber Stamp",
+    "selectToComment": "Select text to leave a comment"
   },
   "rubberStamp": {
     "Approved": "Approuvée",

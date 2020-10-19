@@ -13,6 +13,7 @@ import StampOverlay from 'components/StampOverlay';
 import SignatureOverlay from 'components/SignatureOverlay';
 import MeasurementOverlay from 'components/MeasurementOverlay';
 import AnnotationContentOverlay from 'components/AnnotationContentOverlay';
+import MouseTip from 'components/MouseTip';
 import ToolsOverlay from 'components/ToolsOverlay';
 import DocumentContainer from 'components/DocumentContainer';
 import LeftPanel from 'components/LeftPanel';
@@ -82,6 +83,7 @@ const App = ({ removeEventHandlers }) => {
         <ZoomOverlay />
         <MeasurementOverlay />
         <AnnotationContentOverlay />
+        <MouseTip />
         <ToolsOverlay />
 
         <AnnotationPopup />
