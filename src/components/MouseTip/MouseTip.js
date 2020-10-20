@@ -15,7 +15,10 @@ const MouseTip = () => {
   );
 
   const [t] = useTranslation();
-  const [isEnabled, setIsEnabled] = useState(false);
+  const isElementDisabled = useSelector((state) =>
+    selectors.isElementDisabled(state, "mouseTip")
+  );
+  const [isDisabled, setIsDisabled] = useState(true);
   const [overlayPosition, setOverlayPosition] = useState({
     left: 0,
     top: 0,
@@ -26,20 +29,16 @@ const MouseTip = () => {
       const viewElement = core.getViewerElement();
       let annotation = core.getAnnotationManager().getAnnotationByMouseEvent(e);
 
-      const isTextSelectToolMode = core.getToolMode().name === "TextSelect";
+      const isTextToolMode = core.getToolMode().name.includes("Text");
 
-      if (
-        !annotation &&
-        isTextSelectToolMode &&
-        viewElement.contains(e.target)
-      ) {
+      if (!annotation && isTextToolMode && viewElement.contains(e.target)) {
         setOverlayPosition({
           left: e.clientX + 5,
           top: e.clientY + 5,
         });
-        setIsEnabled(true);
+        setIsDisabled(false);
       } else {
-        setIsEnabled(false);
+        setIsDisabled(true);
       }
     };
 
@@ -47,15 +46,15 @@ const MouseTip = () => {
     return () => {
       core.removeEventListener("mouseMove", onMouseHover);
     };
-  }, [isEnabled]);
+  }, [isDisabled]);
 
-  if (isReadOnly || isMobileDevice || !isEnabled) {
+  if (isDisabled || isElementDisabled || isReadOnly || isMobileDevice) {
     return null;
   } else {
     return (
       <div
         className="Overlay MouseTip"
-        data-element="MouseTip"
+        data-element="mouseTip"
         style={{ ...overlayPosition }}
       >
         {t("action.selectToComment")}
