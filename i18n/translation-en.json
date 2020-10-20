@@ -43,6 +43,7 @@
     "hideMarkers": "Hide markers",
     "prevPage": "Show previous page",
     "nextPage": "Show next page",
+    "jumpToPage": "Jump to a page",
     "selectToComment": "Select text to leave a comment"
   },
   "annotation": {

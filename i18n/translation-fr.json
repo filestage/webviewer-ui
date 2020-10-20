@@ -42,7 +42,9 @@
     "fileAttachmentDownload": "Télécharger le fichier joint",
     "hideMarkers": "Cacher les marqueurs",
     "prevPage": "Afficher la page précédente",
-    "nextPage": "Afficher la page suivante"
+    "nextPage": "Afficher la page suivante",
+    "jumpToPage": "Sauter à une page",
+    "selectToComment": "Select text to leave a comment"
   },
   "annotation": {
     "areaMeasurement": "Surface mesurée",

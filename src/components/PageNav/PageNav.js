@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { withTranslation } from 'react-i18next';
 
 import core from 'core';
 import getClassName from 'helpers/getClassName';
@@ -85,7 +86,7 @@ class PageNav extends React.PureComponent {
   }
 
   render() {
-    const { currentPage, totalPages, allowPageNavigation } = this.props;
+    const { currentPage, totalPages, allowPageNavigation, t } = this.props;
 
     const className = getClassName(`PageNav`, this.props);
 
@@ -101,7 +102,7 @@ class PageNav extends React.PureComponent {
             )}
         />
         <form onSubmit={this.onSubmit} onBlur={this.onBlur}>
-          <input ref={this.textInput} disabled={!allowPageNavigation} type="text" value={this.state.input} onChange={this.onChange} tabIndex={-1} />
+          <input ref={this.textInput} disabled={!allowPageNavigation} type="text" value={this.state.input} onChange={this.onChange} tabIndex={-1} title={t("action.jumpToPage")} />
           {this.state.isCustomPageLabels
             ? ` (${currentPage}/${totalPages})`
             : ` / ${totalPages}`
@@ -132,4 +133,4 @@ const mapStateToProps = state => ({
   allowPageNavigation: selectors.getAllowPageNavigation(state),
 });
 
-export default connect(mapStateToProps)(PageNav);
+export default connect(mapStateToProps)(withTranslation()(PageNav));
