@@ -44,7 +44,8 @@
     "prevPage": "Show previous page",
     "nextPage": "Show next page",
     "jumpToPage": "Jump to a page",
-    "selectToComment": "Select text to leave a comment"
+    "selectToComment": "Select text to leave a comment",
+    "selectToAnnotate": "Select a tool to annotate"
   },
   "annotation": {
     "areaMeasurement": "Area measurement",
