@@ -38,7 +38,7 @@ const ToggleMarkersSwitch = () => {
             }}
           />
         }
-        label={<Hidden xsDown>{t("action.hideMarkers")}</Hidden>}
+        label={<Hidden smDown>{t("action.hideMarkers")}</Hidden>}
       />
     </ThemeProvider>
   );

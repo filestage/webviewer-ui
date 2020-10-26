@@ -30,12 +30,12 @@ export default {
           type: 'customElement',
           render: () => <ToggleZoomOverlay />,
           dataElement: 'zoomOverlayButton',
-          hidden: ['mobile'],
+          hidden: ['mobile', 'tablet'],
           element: 'zoomOverlay',
         },
         { 
           type: 'divider',
-          hidden: ['mobile'],
+          hidden: ['mobile', 'tablet'],
         },
         {
           type: 'customElement',
