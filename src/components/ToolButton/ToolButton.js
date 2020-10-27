@@ -7,6 +7,7 @@ import Button from 'components/Button';
 
 import core from 'core';
 import toolStylesExist from 'helpers/toolStylesExist';
+import defaultTool from 'constants/defaultTool';
 import getToolStyles from 'helpers/getToolStyles';
 import hotkeysManager from 'helpers/hotkeysManager';
 import { mapToolNameToKey } from 'constants/map';
@@ -64,6 +65,8 @@ const ToolButton = ({ toolName, ...restProps }) => {
       if (toolStylesExist(toolName)) {
         dispatch(actions.toggleElement('toolStylePopup'));
       }
+
+      core.setToolMode(defaultTool);
     } else {
       core.setToolMode(toolName);
       dispatch(actions.setActiveToolGroup(group));
