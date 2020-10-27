@@ -33,8 +33,8 @@ const MouseTip = () => {
 
       if (!annotation && isTextToolMode && viewElement.contains(e.target)) {
         setOverlayPosition({
-          left: e.clientX + 5,
-          top: e.clientY + 5,
+          left: e.clientX + 25,
+          top: e.clientY + 10,
         });
         setIsDisabled(false);
       } else {
