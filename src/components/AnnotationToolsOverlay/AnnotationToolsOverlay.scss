@@ -28,8 +28,8 @@
     align-items: center;
     padding: 5px;
     border-radius: 5px;
-    background: #2c2b3a;
-    border-color: #555555;
+    background: rgba(20, 20, 20, 0.95);
+    border-width: 0;
     color: #f4f4f4;
 
     .Button {
@@ -51,11 +51,11 @@
       }
 
       &:hover:not(.disable) {
-        background: #686880;
+        background: #505050;
       }
 
       &.active:not(.disable) {
-        background: #686880;
+        background: #505050;
 
         .Icon {
           color: #ffffff;
