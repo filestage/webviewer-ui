@@ -57,8 +57,8 @@ const setPresetTheme = theme => {
       buttonHover: '#F6F6F6',
       buttonActive: '#F0F0F0',
       text: '#333333',
-      icon: '#757575',
-      iconActive: '#757575',
+      icon: '#c4c5c7',
+      iconActive: '#949597',
     },
     dark: {
       primary: '#2C2B3A',

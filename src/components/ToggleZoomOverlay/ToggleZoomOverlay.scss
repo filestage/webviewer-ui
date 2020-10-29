@@ -1,11 +1,11 @@
-@import '../../constants/styles';
+@import "../../constants/styles";
 
-.ToggleZoomOverlay{
-  height: $button-height;  
+.ToggleZoomOverlay {
+  height: $button-height;
   width: auto;
-  top:0;
+  top: 0;
 
-  .textarea{
+  .textarea {
     resize: none;
     border: none;
     outline: none;
@@ -21,21 +21,23 @@
   }
 }
 
-.OverlayContainer{
+.OverlayContainer {
   display: flex;
   align-items: center;
+
+  color: var(--icon-color);
+
   &:hover {
-    background-color: #F6F6F6;
-    background-color: var(--button-hover-color);
-  }
-  &.active{
-    background-color: #F0F0F0;
-    background-color: var(--button-active-color);
+    color: var(--icon-active-color);
+
+    .OverlayButton .Icon {
+      color: var(--icon-active-color);
+    }
   }
 }
 
-.OverlayText{
-  margin-right:-8px;
+.OverlayText {
+  margin-right: -8px;
   font-size: 16px;
   font-weight: normal;
   height: $button-height;
@@ -44,14 +46,10 @@
   text-align: center;
   display: flex;
   z-index: 1;
-  background-color: inherit;
-  &:hover + .OverlayButton {
-    background-color:inherit;
-  }
 }
 
-input[type=number]::-webkit-inner-spin-button, 
-input[type=number]::-webkit-outer-spin-button { 
-  -webkit-appearance: none; 
-  margin: 0; 
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }

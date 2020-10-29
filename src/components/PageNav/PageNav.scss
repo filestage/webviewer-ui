@@ -6,6 +6,7 @@
   align-items: center;
   font-size: 16px;
   cursor: pointer;
+  color: var(--icon-color);
 
   @include mobile {
     font-size: 14px;
@@ -18,8 +19,8 @@
     text-align: right;
     font-size: 16px;
     background: transparent;
-    color: var(--text-color);
     cursor: pointer;
+    color: var(--icon-color);
 
     &:focus {
       outline: none;
