@@ -1,4 +1,4 @@
-@import '../../constants/styles';
+@import "../../constants/styles";
 
 .Header {
   display: flex;
@@ -11,7 +11,8 @@
   background: var(--primary-color);
   border-top: 1px solid $gray12;
   border-top: 1px solid var(--border-color);
-  transition: all .3s ease;
+  transition: all 0.3s ease;
+  padding: 0 10px;
 
   &.closed {
     transform: translateY(-100%);
@@ -20,5 +21,6 @@
 
   @include mobile {
     height: $top-bar-height-m;
+    padding: 0;
   }
 }
