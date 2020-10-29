@@ -5,71 +5,53 @@
 .AnnotationToolsOverlay {
   @extend %overlay;
   width: auto;
-  min-width: 160px;
   top: 20px;
   left: 50%;
-  margin-left: calc(-#{$right-panel-width} / 2 - 85px);
-  flex-direction: column;
+  margin-left: calc(-#{$right-panel-width} / 2 - 75px);
   padding: 0;
-  border: none;
-  background: none;
-  align-items: center;
-  justify-content: center;
+  border-radius: 5px;
+  background: #2c2b3a;
+  border-color: #555555;
+  color: #f4f4f4;
 
   @include mobile {
     top: calc(#{$panel-height} + 20px);
-    left: calc(50% - 80px);
+    left: calc(50% - 70px);
     margin: 0;
   }
 
-  .toolbar {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    padding: 5px;
-    border-radius: 5px;
-    background: rgba(20, 20, 20, 0.95);
-    border-width: 0;
-    color: #f4f4f4;
+  .Button {
+    height: $popup-button-height;
 
-    .Button {
+    @include mobile {
       height: $popup-button-height;
+    }
+
+    .Icon {
+      color: #f4f4f4;
+      width: $popup-icon-width;
+      height: $popup-icon-height;
 
       @include mobile {
-        height: $popup-button-height;
-      }
-
-      .Icon {
-        color: #f4f4f4;
         width: $popup-icon-width;
         height: $popup-icon-height;
-
-        @include mobile {
-          width: $popup-icon-width;
-          height: $popup-icon-height;
-        }
-      }
-
-      &:hover:not(.disable) {
-        background: #505050;
-      }
-
-      &.active:not(.disable) {
-        background: #505050;
-
-        .Icon {
-          color: #ffffff;
-        }
-      }
-
-      &.down-arrow:after {
-        border-top: 6px solid #ffffff;
       }
     }
-  }
 
-  .help-text {
-    color: #717274;
-    font-size: 12px;
+    &:hover:not(.disable) {
+      background: #686880;
+    }
+
+    &.active:not(.disable) {
+      background: #686880;
+
+      .Icon {
+        color: #ffffff;
+      }
+    }
+
+    &.down-arrow:after {
+      border-top: 6px solid #ffffff;
+    }
   }
 }

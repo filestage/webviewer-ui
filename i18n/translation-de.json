@@ -44,8 +44,7 @@
     "prevPage": "Vorherige Seite zeigen",
     "nextPage": "Nächste Seite zeigen",
     "jumpToPage": "Zu einer Seite springen",
-    "selectToComment": "Select text to leave a comment",
-    "selectToAnnotate": "Wählen Sie ein Kommentarwerkzeug aus"
+    "selectToComment": "Select text to leave a comment"
   },
   "annotation": {
     "areaMeasurement": "Flächenmessung",
