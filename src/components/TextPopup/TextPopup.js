@@ -27,6 +27,7 @@ const TextPopup = () => {
   );
   const dispatch = useDispatch();
   const [position, setPosition] = useState({ left: 0, top: 0 });
+  const [isCopyFeedbackShown, setIsCopyFeedbackShown] = useState(false);
   const popupRef = useRef();
   useOnClickOutside(popupRef, () => {
     dispatch(actions.closeElement("textPopup"));
@@ -54,6 +55,17 @@ const TextPopup = () => {
 
   const isActive = (textAnnotation) => activeTextAnnotation === textAnnotation;
 
+  useEffect(() => {
+    const timeoutID = setTimeout(() => setIsCopyFeedbackShown(false), 1000);
+    return () => clearTimeout(timeoutID);
+  }, [isCopyFeedbackShown]);
+
+  const onCopyClick = () => {
+    copyText();
+
+    setIsCopyFeedbackShown(true);
+  };
+
   return isDisabled ? null : (
     <div
       className={classNames({
@@ -70,8 +82,8 @@ const TextPopup = () => {
         <ActionButton
           dataElement="copyTextButton"
           title="action.copy"
-          img="ic_copy_black_24px"
-          onClick={copyText}
+          img={`ic_${isCopyFeedbackShown ? "check" : "copy"}_black_24px`}
+          onClick={onCopyClick}
         />
         <ActionButton
           dataElement="textHighlightToolButton"
