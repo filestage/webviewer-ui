@@ -1,7 +1,10 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useSelector, useDispatch, shallowEqual } from "react-redux";
+import { useTranslation } from "react-i18next";
+
 import classNames from "classnames";
 
+import Button from "components/Button";
 import ActionButton from "components/ActionButton";
 import CustomizablePopup from "components/CustomizablePopup";
 
@@ -25,6 +28,7 @@ const TextPopup = () => {
     ],
     shallowEqual
   );
+  const [t] = useTranslation();
   const dispatch = useDispatch();
   const [position, setPosition] = useState({ left: 0, top: 0 });
   const [isCopyFeedbackShown, setIsCopyFeedbackShown] = useState(false);
@@ -61,6 +65,9 @@ const TextPopup = () => {
   }, [isCopyFeedbackShown]);
 
   const onCopyClick = () => {
+    if (isCopyFeedbackShown) {
+      return;
+    }
     copyText();
 
     setIsCopyFeedbackShown(true);
@@ -78,8 +85,22 @@ const TextPopup = () => {
       ref={popupRef}
       style={{ ...position }}
     >
+      <div
+        className={classNames({
+          Overlay: true,
+          CopyFeedbackOverlay: true,
+          open: isCopyFeedbackShown,
+        })}
+        data-element="copyFeebackOverlay"
+        style={{ right: 0, top: "100%" }}
+      >
+        {t("component.copyFeebackOverlay")}
+      </div>
       <CustomizablePopup dataElement="textPopup">
-        <ActionButton
+        <Button
+          className={classNames({
+            "Button--green": isCopyFeedbackShown,
+          })}
           dataElement="copyTextButton"
           title="action.copy"
           img={`ic_${isCopyFeedbackShown ? "check" : "copy"}_black_24px`}

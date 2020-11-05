@@ -1,5 +1,19 @@
-@import '../../constants/popup';
+@import "../../constants/popup";
+@import "../../constants/overlay";
 
 .TextPopup {
   @extend %popup;
+}
+
+.CopyFeedbackOverlay {
+  @extend %overlay--tooltip;
+
+  background: white;
+  color: $filestage-green;
+
+  display: none;
+
+  &.open {
+    display: block;
+  }
 }

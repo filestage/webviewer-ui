@@ -104,6 +104,7 @@
     "SBRejected": "Abgelehnt"
   },
   "component": {
+    "copyFeebackOverlay": "Kopiert!",
     "freehandToolsButton": "Freihand-Werkzeuge",
     "leftPanel": "Linke Leiste",
     "searchOverlay": "Suche",

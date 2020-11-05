@@ -63,4 +63,10 @@
       font-size: 10px;
     }
   }
+
+  &--green {
+    .Icon {
+      color: $filestage-green !important;
+    }
+  }
 }
