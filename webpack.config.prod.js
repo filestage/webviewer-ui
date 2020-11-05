@@ -2,13 +2,14 @@ const path = require('path');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 // const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
   mode: 'production',
   entry: path.resolve(__dirname, 'src'),
   output: {
     path: path.resolve(__dirname, 'build'),
-    filename: 'webviewer-ui.min.js',
+    filename: 'webviewer-ui.min.[contenthash].js',
     chunkFilename: 'chunks/[name].chunk.js',
     publicPath: './',
   },
@@ -32,9 +33,10 @@ module.exports = {
       },
     ]),
     new MiniCssExtractPlugin({
-      filename: 'style.css',
+      filename: 'style.[contenthash].css',
       chunkFilename: 'chunks/[name].chunk.css'
     }),
+    new HtmlWebpackPlugin(),
     // new BundleAnalyzerPlugin()
   ],
   module: {
