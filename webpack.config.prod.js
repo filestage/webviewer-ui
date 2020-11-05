@@ -16,10 +16,6 @@ module.exports = {
   plugins: [
     new CopyWebpackPlugin([
       {
-        from: './src/index.core.html',
-        to: '../build/index.html',
-      },
-      {
         from: './i18n',
         to: '../build/i18n',
       },
@@ -36,7 +32,9 @@ module.exports = {
       filename: 'style.[contenthash].css',
       chunkFilename: 'chunks/[name].chunk.css'
     }),
-    new HtmlWebpackPlugin(),
+    new HtmlWebpackPlugin({
+      template: './src/index.core.html'
+    }),
     // new BundleAnalyzerPlugin()
   ],
   module: {
