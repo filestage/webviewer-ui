@@ -353,7 +353,7 @@ WebViewer(...)
       },
       [`${Keys.ESCAPE}`]: e => {
         e.preventDefault();
-        setToolModeAndGroup(store, 'AnnotationEdit', '');
+        setToolModeAndGroup(store, 'TextSelect', '');
 
         const el = document.activeElement;
         if (el?.tabIndex === 0) {
