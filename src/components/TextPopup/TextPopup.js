@@ -91,10 +91,10 @@ const TextPopup = () => {
           CopyFeedbackOverlay: true,
           open: isCopyFeedbackShown,
         })}
-        data-element="copyFeebackOverlay"
+        data-element="copyFeedbackOverlay"
         style={{ right: 0, top: "100%" }}
       >
-        {t("component.copyFeebackOverlay")}
+        {t("component.copyFeedbackOverlay")}
       </div>
       <CustomizablePopup dataElement="textPopup">
         <Button

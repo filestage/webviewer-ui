@@ -104,7 +104,7 @@
     "SBRejected": "Rejected"
   },
   "component": {
-    "copyFeebackOverlay": "Copied!",
+    "copyFeedbackOverlay": "Copied!",
     "freehandToolsButton": "Freehand tools",
     "leftPanel": "Panel",
     "searchOverlay": "Search document",
