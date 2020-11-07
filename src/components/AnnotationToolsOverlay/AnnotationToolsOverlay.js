@@ -13,10 +13,11 @@ const AnnotationToolsOverlay = () => {
     selectors.isElementDisabled(state, "annotationToolsOverlay")
   );
 
-  const [timeoutId, setTimeoutId] = useState(undefined);
   const [isHiddenDueToInactivity, setIsHiddenDueToInactivity] = useState(false);
 
   useEffect(() => {
+    let timeoutId = null;
+
     const onMouseHover = (e) => {
       setIsHiddenDueToInactivity(false);
 
@@ -24,22 +25,22 @@ const AnnotationToolsOverlay = () => {
         clearTimeout(timeoutId);
       }
 
-      setTimeoutId(
-        setTimeout(() => {
-          setIsHiddenDueToInactivity(true), setTimeoutId(undefined);
-        }, MAX_INACTIVITY_MS)
-      );
+      timeoutId = setTimeout(() => {
+        setIsHiddenDueToInactivity(true);
+        timeoutId = null;
+      }, MAX_INACTIVITY_MS);
     };
 
     core.addEventListener("mouseMove", onMouseHover);
+
     return () => {
+      core.removeEventListener("mouseMove", onMouseHover);
+
       if (typeof timeoutId === "number") {
         clearTimeout(timeoutId);
       }
-
-      core.removeEventListener("mouseMove", onMouseHover);
     };
-  }, [timeoutId]);
+  }, []);
 
   return isDisabled || isHiddenDueToInactivity ? null : (
     <div
