@@ -60,8 +60,10 @@ const TextPopup = () => {
   const isActive = (textAnnotation) => activeTextAnnotation === textAnnotation;
 
   useEffect(() => {
-    const timeoutID = setTimeout(() => setIsCopyFeedbackShown(false), 1000);
-    return () => clearTimeout(timeoutID);
+    if (isCopyFeedbackShown) {
+      const timeoutID = setTimeout(() => setIsCopyFeedbackShown(false), 1000);
+      return () => clearTimeout(timeoutID);
+    }
   }, [isCopyFeedbackShown]);
 
   const onCopyClick = () => {
