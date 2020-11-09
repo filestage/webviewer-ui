@@ -1,6 +1,7 @@
 import hotkeys from 'hotkeys-js';
 
 import core from 'core';
+import defaultTool from 'constants/defaultTool';
 import openFilePicker from 'helpers/openFilePicker';
 import copyText from 'helpers/copyText';
 import setToolModeAndGroup from 'helpers/setToolModeAndGroup';
@@ -353,7 +354,7 @@ WebViewer(...)
       },
       [`${Keys.ESCAPE}`]: e => {
         e.preventDefault();
-        setToolModeAndGroup(store, 'TextSelect', '');
+        setToolModeAndGroup(store, defaultTool, '');
 
         const el = document.activeElement;
         if (el?.tabIndex === 0) {
