@@ -24,6 +24,10 @@ html, body , #app {
   font-family: "Lato", sans-serif;
   color: #333;
   color: var(--text-color);
+  
+  @include tablet-and-mobile {
+    height: 100vh;
+  }
 }
 
 .App {
