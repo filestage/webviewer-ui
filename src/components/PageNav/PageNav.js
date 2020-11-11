@@ -6,7 +6,7 @@ import { withTranslation } from 'react-i18next';
 import core from 'core';
 import getClassName from 'helpers/getClassName';
 import selectors from 'selectors';
-import { isIOS } from 'helpers/device';
+import { isIOS, isMobile } from 'helpers/device';
 import ActionButton from 'components/ActionButton';
 
 import './PageNav.scss';
@@ -36,16 +36,17 @@ class PageNav extends React.PureComponent {
 
     if (prevProps.currentPage !== this.props.currentPage || prevProps.pageLabels !== this.props.pageLabels) {
       this.setState({ input: this.props.pageLabels[this.props.currentPage - 1] });
-    }
-
-    if (prevProps.totalPages !== this.props.totalPages) {
       this.setInputWidth();
     }
   }
 
   setInputWidth = () => {
-    this.textInput.current.style.width = `${this.props.totalPages.toString().length * 11.5}px`;
-  }
+    const currentPageDigits = this.props.currentPage.toString().length;
+
+    this.textInput.current.style.width = `${
+      currentPageDigits * (isMobile() ? 8 : 10)
+    }px`;
+  };
 
   onClick = () => {
     if (isIOS) {
@@ -63,6 +64,7 @@ class PageNav extends React.PureComponent {
     }
 
     this.setState({ input: e.target.value });
+    this.setInputWidth();
   }
 
   onSubmit = e => {
@@ -83,6 +85,7 @@ class PageNav extends React.PureComponent {
     const { currentPage, pageLabels } = this.props;
 
     this.setState({ input: pageLabels[currentPage - 1] });
+    this.setInputWidth();
   }
 
   render() {

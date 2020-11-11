@@ -33,5 +33,9 @@
 
   form {
     padding: 6px;
+
+    @include mobile {
+      padding: 6px 0;
+    }
   }
 }
