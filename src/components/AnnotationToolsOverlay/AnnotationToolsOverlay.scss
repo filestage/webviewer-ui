@@ -40,6 +40,20 @@
 
     &:hover:not(.disable) {
       background: #505050;
+
+      .Icon {
+        color: #f4f4f4;
+      }
+
+      &:first-child {
+        border-top-left-radius: 5px;
+        border-bottom-left-radius: 5px;
+      }
+
+      &:last-child {
+        border-top-right-radius: 5px;
+        border-bottom-right-radius: 5px;
+      }
     }
 
     &.active:not(.disable) {
