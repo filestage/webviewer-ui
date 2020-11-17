@@ -14,8 +14,6 @@ import { mapToolNameToKey } from 'constants/map';
 import actions from 'actions';
 import selectors from 'selectors';
 
-import './ToolButton.scss';
-
 import DataElements from 'constants/dataElement';
 
 const propTypes = {
