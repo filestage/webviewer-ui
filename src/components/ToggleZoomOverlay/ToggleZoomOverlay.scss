@@ -11,12 +11,12 @@
     outline: none;
     color: inherit;
     background-color: transparent;
-    font-size: 16px;
+    font-size: 1.4rem;
     margin-top: -2px;
     margin-right: 2px;
     width: 42px;
     height: $top-bar-height;
-    line-height: 42px;
+    line-height: 43px;
     text-align: right;
   }
 }
@@ -38,11 +38,10 @@
 
 .OverlayText {
   margin-right: -8px;
-  font-size: 16px;
+  font-size: 1.4rem;
   font-weight: normal;
   height: $button-height;
   line-height: $button-height;
-  // height: 19px;
   text-align: center;
   display: flex;
   z-index: 1;

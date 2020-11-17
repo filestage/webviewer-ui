@@ -17,6 +17,8 @@ const theme = createMuiTheme({
   },
   typography: {
     fontFamily: ["'Lato'", "sans-serif"].join(","),
+    htmlFontSize: 10,
+    body1: { fontSize: "1.4rem" },
   },
 });
 
