@@ -3,8 +3,6 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import core from 'core';
-import { isIE } from 'helpers/device';
-import { updateContainerWidth, getClassNameInIE, handleWindowResize } from 'helpers/documentContainerHelper';
 import loadDocument from 'helpers/loadDocument';
 import getNumberOfPagesToNavigate from 'helpers/getNumberOfPagesToNavigate';
 import touchEventManager from 'helpers/TouchEventManager';
@@ -42,22 +40,12 @@ class DocumentContainer extends React.PureComponent {
     this.wheelToZoom = _.throttle(this.wheelToZoom.bind(this), 30, { trailing: false });
   }
 
-  componentDidUpdate(prevProps) {
-    if (isIE) {
-      updateContainerWidth(prevProps, this.props, this.container.current);
-    }
-  }
-
   componentDidMount() {
     touchEventManager.initialize(this.document.current, this.container.current);
     core.setScrollViewElement(this.container.current);
     core.setViewerElement(this.document.current);
 
     this.loadInitialDocument();
-
-    if (isIE) {
-      window.addEventListener('resize', this.handleWindowResize);
-    }
 
     if (process.env.NODE_ENV === 'development') {
       this.container.current.addEventListener('dragover', this.preventDefault);
@@ -69,9 +57,6 @@ class DocumentContainer extends React.PureComponent {
 
   componentWillUnmount() {
     touchEventManager.terminate();
-    if (isIE) {
-      window.removeEventListener('resize', this.handleWindowResize);
-    }
 
     if (process.env.NODE_ENV === 'development') {
       this.container.current.addEventListener('dragover', this.preventDefault);
@@ -107,10 +92,6 @@ class DocumentContainer extends React.PureComponent {
     if (files.length) {
       loadDocument(this.props.dispatch, files[0]);
     }
-  }
-
-  handleWindowResize = () => {
-    handleWindowResize(this.props, this.container.current);
   }
 
   onWheel = e => {
@@ -197,11 +178,7 @@ class DocumentContainer extends React.PureComponent {
   render() {
     let className;
 
-    if (isIE) {
-      className = getClassNameInIE(this.props);
-    } else {
-      className = this.getClassName(this.props);
-    }
+    className = this.getClassName(this.props);
 
     return (
       <div className={className} ref={this.container} data-element="documentContainer" onScroll={this.handleScroll} onTransitionEnd={this.onTransitionEnd}>

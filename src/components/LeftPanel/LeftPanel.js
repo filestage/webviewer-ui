@@ -11,7 +11,6 @@ import BookmarksPanel from 'components/BookmarksPanel';
 import LayersPanel from 'components/LayersPanel';
 import CustomElement from 'components/CustomElement';
 
-import { isIE11 } from 'helpers/device';
 import selectors from 'selectors';
 
 import './LeftPanel.scss';
@@ -39,8 +38,6 @@ const LeftPanel = () => {
   };
 
   const getDisplay = panel => (panel === activePanel ? 'flex' : 'none');
-  // IE11 will use javascript for controlling width, other broswers will use CSS variables
-  const style = isIE11 && leftPanelWidth ? { width: leftPanelWidth } : { };
 
   return isDisabled ? null : (
     <div
@@ -53,7 +50,6 @@ const LeftPanel = () => {
       onDrop={onDrop}
       onDragOver={onDragOver}
       data-element="leftPanel"
-      style={style}
     >
       <div className="left-panel-header">
         <LeftPanelTabs />
