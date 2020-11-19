@@ -53,7 +53,7 @@ const AnnotationToolsOverlay = () => {
     >
       <ToolButton toolName="AnnotationCreateTextHighlight" />
       <ToolButton toolName="AnnotationCreateTextStrikeout" />
-      <ToolButton toolName="AnnotationCreateSticky" />
+      {isMobileDevice && <ToolButton toolName="AnnotationCreateSticky" />}
     </div>
   );
 };
