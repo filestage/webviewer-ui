@@ -44,7 +44,7 @@
     "prevPage": "Afficher la page précédente",
     "nextPage": "Afficher la page suivante",
     "jumpToPage": "Sauter à une page",
-    "selectToComment": "Sélectionnez du texte pour commenter"
+    "selectToComment": "Cliquez ou sélectionnez du texte pour commenter"
   },
   "annotation": {
     "areaMeasurement": "Surface mesurée",
@@ -76,8 +76,7 @@
     "strikeout": "Barré",
     "underline": "Soulignage",
     "custom": "personnalisation",
-    "rubberStamp": "Rubber Stamp",
-    "selectToComment": "Select text to leave a comment"
+    "rubberStamp": "Rubber Stamp"
   },
   "rubberStamp": {
     "Approved": "Approuvée",
