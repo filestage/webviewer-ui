@@ -1,25 +1,25 @@
-import i18next from 'i18next';
-import XHR from 'i18next-xhr-backend';
+import i18next from "i18next";
+import XHR from "i18next-xhr-backend";
 
-export default state => {
+export default (state) => {
   const options = {
-    fallbackLng: 'en',
+    fallbackLng: "en",
     react: {
       useSuspense: false,
       wait: true,
     },
   };
   const callback = (err, t) => {
-    window.Annotations.Utilities.setAnnotationSubjectHandler(type =>
-      t(`annotation.${type}`),
+    window.Annotations.Utilities.setAnnotationSubjectHandler((type) =>
+      t(`annotation.${type}`)
     );
 
     window.Tools.SignatureCreateTool.setTextHandler(() =>
-      t('message.signHere'),
+      t("message.signHere")
     );
 
     window.Tools.FreeTextCreateTool.setTextHandler(() =>
-      t('message.insertTextHere'),
+      t("message.insertTextHere")
     );
   };
 
@@ -30,10 +30,10 @@ export default state => {
       {
         ...options,
         backend: {
-          loadPath: './i18n/{{ns}}-{{lng}}.json',
+          loadPath: "./i18n/{{ns}}-{{lng}}.json",
         },
       },
-      callback,
+      callback
     );
   }
 };
