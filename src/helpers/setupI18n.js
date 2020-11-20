@@ -1,14 +1,11 @@
 import i18next from "i18next";
-import XHR from "i18next-xhr-backend";
+import { initReactI18next } from "react-i18next";
 
-export default (state) => {
-  const options = {
-    fallbackLng: "en",
-    react: {
-      useSuspense: false,
-      wait: true,
-    },
-  };
+import en from "../../i18n/translation-en.json";
+import de from "../../i18n/translation-de.json";
+import fr from "../../i18n/translation-fr.json";
+
+export default () => {
   const callback = (err, t) => {
     window.Annotations.Utilities.setAnnotationSubjectHandler((type) =>
       t(`annotation.${type}`)
@@ -23,17 +20,19 @@ export default (state) => {
     );
   };
 
-  if (state.advanced.disableI18n) {
-    i18next.init(options, callback);
-  } else {
-    i18next.use(XHR).init(
-      {
-        ...options,
-        backend: {
-          loadPath: "./i18n/{{ns}}-{{lng}}.json",
-        },
+  i18next.use(initReactI18next).init(
+    {
+      resources: {
+        en: { translation: en },
+        de: { translation: de },
+        fr: { translation: fr },
       },
-      callback
-    );
-  }
+      fallbackLng: "en",
+      react: {
+        useSuspense: false,
+        wait: true,
+      },
+    },
+    callback
+  );
 };

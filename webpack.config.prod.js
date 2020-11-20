@@ -16,10 +16,6 @@ module.exports = {
   plugins: [
     new CopyWebpackPlugin([
       {
-        from: './i18n',
-        to: '../build/i18n',
-      },
-      {
         from: './assets',
         to: '../build/assets',
       },
