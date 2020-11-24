@@ -433,6 +433,7 @@ class SearchOverlay extends React.PureComponent {
       isSearchPanelDisabled,
       results,
       searchValue,
+      activeResultIndex,
       isWildCardSearchDisabled,
     } = this.props;
 
