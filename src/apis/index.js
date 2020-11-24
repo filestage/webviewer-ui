@@ -89,6 +89,7 @@ import setAnnotationUser from './setAnnotationUser';
 import setActivePalette from './setActivePalette';
 import setColorPalette from './setColorPalette';
 import setCurrentPageNumber from './setCurrentPageNumber';
+import setCustomModal from './setCustomModal';
 import setCustomNoteFilter from './setCustomNoteFilter';
 import setCustomPanel from './setCustomPanel';
 import exportBookmarks from './exportBookmarks';
@@ -179,6 +180,7 @@ export default store => {
     setActiveHeaderGroup: setActiveHeaderGroup(store),
     setActiveTextAnnotation: setActiveTextAnnotation(store),
     setActiveLeftPanel: setActiveLeftPanel(store),
+    setCustomModal: setCustomModal(store),
     setCustomNoteFilter: setCustomNoteFilter(store),
     setCustomPanel: setCustomPanel(store),
     exportBookmarks: exportBookmarks(store),

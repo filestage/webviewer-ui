@@ -21,9 +21,9 @@ export const getTextPopupPositionBasedOn = (allQuads, popup) => {
 const getAnnotationPosition = annotation => {
   const { left, top, right, bottom } = getAnnotationPageCoordinates(annotation);
 
-  const pageIndex = annotation.getPageNumber() - 1;
-  const topLeft = convertPageCoordinatesToWindowCoordinates(left, top, pageIndex);
-  let bottomRight = convertPageCoordinatesToWindowCoordinates(right, bottom, pageIndex);
+  const pageNumber = annotation.getPageNumber();
+  const topLeft = convertPageCoordinatesToWindowCoordinates(left, top, pageNumber);
+  let bottomRight = convertPageCoordinatesToWindowCoordinates(right, bottom, pageNumber);
 
   const isNote = annotation instanceof window.Annotations.StickyAnnotation;
   if (isNote) {
@@ -77,15 +77,15 @@ const getAnnotationPageCoordinates = annotation => {
 };
 
 const getSelectedTextPosition = allQuads => {
-  const { startPageIndex, endPageIndex } = getSelectedTextPageIndex(allQuads);
+  const { startPageNumber, endPageNumber } = getSelectedTextPageNumber(allQuads);
   const { left, right, top, bottom } = getSelectedTextPageCoordinates(
     allQuads,
-    startPageIndex,
-    endPageIndex
+    startPageNumber,
+    endPageNumber
   );
 
-  let topLeft = convertPageCoordinatesToWindowCoordinates(left, top, startPageIndex);
-  let bottomRight = convertPageCoordinatesToWindowCoordinates(right, bottom, endPageIndex);
+  let topLeft = convertPageCoordinatesToWindowCoordinates(left, top, startPageNumber);
+  let bottomRight = convertPageCoordinatesToWindowCoordinates(right, bottom, endPageNumber);
 
   if (core.getRotation() > 1) {
     const tmp = topLeft;
@@ -96,21 +96,21 @@ const getSelectedTextPosition = allQuads => {
   return { topLeft, bottomRight };
 };
 
-const getSelectedTextPageIndex = allQuads => {
-  const pageIndices = Object.keys(allQuads).map(pageIndex => Number(pageIndex));
+const getSelectedTextPageNumber = allQuads => {
+  const pageNumbers = Object.keys(allQuads).map(pageNumber => Number(pageNumber));
   // Object.keys returns keys in arbitrary order so use Math.min/max instead of index to access array
-  const startPageIndex = Math.min(...pageIndices);
-  const endPageIndex = Math.max(...pageIndices);
+  const startPageNumber = Math.min(...pageNumbers);
+  const endPageNumber = Math.max(...pageNumbers);
 
-  return { startPageIndex, endPageIndex };
+  return { startPageNumber, endPageNumber };
 };
 
-const getSelectedTextPageCoordinates = (allQuads, startPageIndex, endPageIndex) => {
+const getSelectedTextPageCoordinates = (allQuads, startPageNumber, endPageNumber) => {
   const getTopAndBottom = () => {
-    const firstQuad = allQuads[startPageIndex][0];
+    const firstQuad = allQuads[startPageNumber][0];
     const top = firstQuad.y3;
 
-    const endPageQuads = allQuads[endPageIndex];
+    const endPageQuads = allQuads[endPageNumber];
     const lastQuad = endPageQuads[endPageQuads.length - 1];
     const bottom = lastQuad.y1;
 
@@ -121,8 +121,8 @@ const getSelectedTextPageCoordinates = (allQuads, startPageIndex, endPageIndex) 
     let left;
     let right;
 
-    Object.keys(allQuads).forEach(pageIndex => {
-      allQuads[pageIndex].forEach(quad => {
+    Object.keys(allQuads).forEach(pageNumber => {
+      allQuads[pageNumber].forEach(quad => {
         const { x1: quadLeft, x2: quadRight } = quad;
 
         if (!left || quadLeft < left) {
@@ -143,10 +143,10 @@ const getSelectedTextPageCoordinates = (allQuads, startPageIndex, endPageIndex) 
   return { left, top, bottom, right };
 };
 
-const convertPageCoordinatesToWindowCoordinates = (x, y, pageIndex) => {
+const convertPageCoordinatesToWindowCoordinates = (x, y, pageNumber) => {
   const displayMode = core.getDisplayModeObject();
 
-  return displayMode.pageToWindow({ x, y }, pageIndex);
+  return displayMode.pageToWindow({ x, y }, pageNumber);
 };
 
 const getPopupDimensions = popup => {
@@ -156,16 +156,14 @@ const getPopupDimensions = popup => {
 };
 
 const calcAnnotationPopupPosition = (annotationPosition, popupDimension) => {
-  const approximateHeight = 375;
-  const top = calcPopupTop(annotationPosition, popupDimension, approximateHeight);
+  const top = calcPopupTop(annotationPosition, popupDimension);
   const left = calcPopupLeft(annotationPosition, popupDimension);
 
   return { left, top };
 };
 
 const calcTextPopupPosition = (selectedTextPosition, popupDimension) => {
-  const approximateHeight = 50;
-  const top = calcPopupTop(selectedTextPosition, popupDimension, approximateHeight);
+  const top = calcPopupTop(selectedTextPosition, popupDimension);
   const left = calcPopupLeft(selectedTextPosition, popupDimension);
 
   return { left, top };
@@ -190,7 +188,7 @@ export const calcPopupLeft = ({ topLeft, bottomRight }, { width }) => {
  * @param {number} approximateHeight The max height of the popup element.
  * this is specifically used for the annotation popup to keep the popup on the same side of the annotation.
  */
-export const calcPopupTop = ({ topLeft, bottomRight }, { height }, approximateHeight) => {
+export const calcPopupTop = ({ topLeft, bottomRight }, { height }) => {
   const scrollContainer = core.getScrollViewElement();
   const boundingBox = scrollContainer.getBoundingClientRect();
   const visibleRegion = {
@@ -206,15 +204,7 @@ export const calcPopupTop = ({ topLeft, bottomRight }, { height }, approximateHe
   const annotBottom = bottomRight.y + gap;
 
   let top;
-  // in the current design the height of the annotation popup changes when the style edit button is clicked
-  // however we don't know the height of it when an annotation is selected
-  // if we instead use `height` then we might see the case where the style picker shows on the other side of the annotation
-  if (annotBottom + approximateHeight < visibleRegion.bottom) {
-    top = annotBottom;
-  } else if (annotTop - approximateHeight > visibleRegion.top) {
-    top = annotTop - height;
-  } else if (annotBottom + height < visibleRegion.bottom) {
-    // either side doesn't have enough space for the approximate height, we try to use the actual height of the popup element
+  if (annotBottom + height < visibleRegion.bottom) {
     top = annotBottom;
   } else if (annotTop - height > visibleRegion.top) {
     top = annotTop - height;

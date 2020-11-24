@@ -23,9 +23,13 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    margin: 10px 0;
+    margin: 13px 10px 5px 10px;
 
-    .annotation-image {
+    .page-image {
+      border: 1px solid $gray20;
+    }
+
+    .annotation-image, .page-image {
       position: absolute;
       left: 50%;
       top: 50%;

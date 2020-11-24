@@ -50,7 +50,7 @@ const LinkModal = () => {
     link.Width = width;
     link.Height = height;
     return link;
-  }
+  };
 
   const createLink = () => {
     const linksResults = [];
@@ -60,22 +60,28 @@ const LinkModal = () => {
 
     if (quads) {
       const selectedText = core.getSelectedText();
-      for (let currPageNumber in quads) {
-        let currPageLinks = [];
+      for (const currPageNumber in quads) {
+        const currPageLinks = [];
         quads[currPageNumber].forEach(quad => {
-          currPageLinks.push(newLink(Math.min(quad.x1, quad.x3), Math.min(quad.y1, quad.y3),
-          Math.abs(quad.x1 - quad.x3), Math.abs(quad.y1 - quad.y3), parseInt(currPageNumber) + 1));
+          currPageLinks.push(
+            newLink(
+              Math.min(quad.x1, quad.x3),
+              Math.min(quad.y1, quad.y3),
+              Math.abs(quad.x1 - quad.x3),
+              Math.abs(quad.y1 - quad.y3),
+              parseInt(currPageNumber)
+            )
+          );
         });
         createHighlightAnnot(currPageLinks, quads[currPageNumber], selectedText);
         linksResults.push(...currPageLinks);
-      };
+      }
     }
 
     if (selectedAnnotations) {
       selectedAnnotations.forEach(annot => {
-
         const associatedLinks = annot.getAssociatedLinks();
-        if (associatedLinks.length >  0) {
+        if (associatedLinks.length > 0) {
           const linksToDelete = [];
           associatedLinks.forEach(linkId => {
             linksToDelete.push(core.getAnnotationById(linkId));
@@ -83,7 +89,7 @@ const LinkModal = () => {
           core.deleteAnnotations(linksToDelete);
           annot.unassociateLinks();
         }
-        
+
         const link = newLink(annot.X, annot.Y, annot.Width, annot.Height);
         linksResults.push(link);
         annot.associateLink([link.Id]);
@@ -107,17 +113,19 @@ const LinkModal = () => {
     highlight.Author = core.getCurrentUser();
     highlight.setContents(text);
 
-    let linkAnnotIdArray = linkAnnotArray.map(link => link.Id);
+    const linkAnnotIdArray = linkAnnotArray.map(link => link.Id);
     highlight.associateLink(linkAnnotIdArray);
 
     core.addAnnotations([highlight]);
   };
 
-  const addURLLink = () => {
+  const addURLLink = e => {
+    e.preventDefault();
+
     const links = createLink();
 
     const action = new window.Actions.URI({ uri: url });
-    links.forEach(async link => {
+    links.forEach(link => {
       link.addAction('U', action);
       core.addAnnotations([link]);
     });
@@ -127,18 +135,20 @@ const LinkModal = () => {
     pageNumbersToDraw.forEach(pageNumberToDraw => {
       core.drawAnnotations(pageNumberToDraw, null, true);
     });
-    
+
     closeModal();
   };
 
-  const addPageLink = () => {
+  const addPageLink = e => {
+    e.preventDefault();
+
     const links = createLink();
 
     const Dest = window.Actions.GoTo.Dest;
     const options = { dest: new Dest({ page: pageNumber }) };
     const action = new window.Actions.GoTo(options);
 
-    links.forEach(async link => {
+    links.forEach(link => {
       link.addAction('U', action);
       core.addAnnotations([link]);
     });
@@ -172,19 +182,7 @@ const LinkModal = () => {
     } else if (tabSelected === 'URLPanelButton' && isOpen) {
       urlInput.current.focus();
     }
-  }, [tabSelected, isOpen]);
-
-  const setDropdownNumbers = () => {
-      const numbers = [];
-      for (let i = 1; i <= totalPages; i++) {
-        numbers.push(
-          <option key={i} value={i}>
-            {i}
-          </option>,
-        );
-      }
-      return numbers;
-  }
+  }, [tabSelected, isOpen, pageNumberInput, urlInput]);
 
   const modalClass = classNames({
     Modal: true,
@@ -194,11 +192,7 @@ const LinkModal = () => {
   });
 
   return isDisabled ? null : (
-    <div
-      className={modalClass}
-      data-element="linkModal"
-      onMouseDown={closeModal}
-    >
+    <div className={modalClass} data-element="linkModal" onMouseDown={closeModal}>
       <div className="container" onMouseDown={e => e.stopPropagation()}>
         <Tabs id="linkModal">
           <div className="header">
@@ -220,37 +214,38 @@ const LinkModal = () => {
 
           <TabPanel dataElement="URLPanel">
             <form onSubmit={addURLLink}>
-                <div>{t('link.enterurl')}</div>
-                <input
-                  className="urlInput"
-                  type="url"
-                  ref={urlInput}
-                  value={url}
-                  onChange={e => setURL(e.target.value)}
-                />
-                <Button
-                  dataElement="linkSubmitButton"
-                  label={t('action.link')}
-                  onClick={addURLLink}
-                />
+              <div>{t('link.enterurl')}</div>
+              <input
+                className="urlInput"
+                type="url"
+                ref={urlInput}
+                value={url}
+                onChange={e => setURL(e.target.value)}
+              />
+              <Button
+                dataElement="linkSubmitButton"
+                label={t('action.link')}
+                onClick={addURLLink}
+              />
             </form>
           </TabPanel>
           <TabPanel dataElement="PageNumberPanel">
             <form onSubmit={addPageLink}>
-                <div>{t('link.enterpage')}</div>
-                <select
-                  className="pageNumberSelect"
-                  ref={pageNumberInput}
-                  value={pageNumber}
-                  onChange={e => setPageNumber(e.target.value)}
-                >
-                  {setDropdownNumbers()}
-                </select>
-                <Button
-                  dataElement="linkSubmitButton"
-                  label={t('action.link')}
-                  onClick={addPageLink}
-                />
+              <div>{t('link.enterpage')}</div>
+              <input
+                type="number"
+                ref={pageNumberInput}
+                value={pageNumber}
+                onChange={e => setPageNumber(parseInt(e.target.value, 10))}
+                min={1}
+                max={totalPages}
+              />
+              <Button
+                dataElement="linkSubmitButton"
+                label={t('action.link')}
+                onClick={addPageLink}
+                disable={pageNumber < 1 || pageNumber > totalPages}
+              />
             </form>
           </TabPanel>
         </Tabs>

@@ -13,7 +13,7 @@
     "ungroup": "Gruppierung aufheben",
     "download": "Download",
     "edit": "Bearbeiten",
-    "extract": "Extrakt",
+    "extract": "Extrahieren",
     "enterFullscreen": "Vollbildansicht",
     "exitFullscreen": "Vollbildansicht beenden",
     "fit": "Anpassen",
@@ -59,7 +59,6 @@
     "freehand": "Freihandzeichnen",
     "freehand2": "Freihandzeichnen",
     "freetext": "Freitext",
-    "freetext2": "Freitext",
     "highlight": "Hervorheben",
     "highlight2": "Hervorheben",
     "line": "Linie",
@@ -74,7 +73,7 @@
     "stamp": "Stempel",
     "stickyNote": "Kommentar",
     "strikeout": "Durchstreichen",
-    "underline": "Unterstreichen",
+    "underline": "Unterstrichen",
     "custom": "Angepasst",
     "rubberStamp": "Stempel"
   },
@@ -123,7 +122,8 @@
     "redaction": "Schwärzen",
     "viewControlsOverlay": "Anzeigeoptionen",
     "measurementToolsButton": "Messwerkzeuge",
-    "calibration": "Kalibrierung"
+    "calibration": "Kalibrierung",
+    "createStampButton": "Neuen Stempel erstellen"
   },
   "message": {
     "badDocument": "Fehler beim Laden des Dokuments. Das Dokument ist entweder defekt oder ungültig.",
@@ -186,6 +186,7 @@
       "all": "Alle",
       "current": "Aktuelle Seite",
       "pages": "Seiten",
+      "includeAnnotations": "Fügen Sie Anmerkungen hinzu",
       "includeComments": "Kommentare einfügen",
       "addWatermarkSettings": "Wasserzeicheneinstellungen hinzufügen"
     },
@@ -205,6 +206,14 @@
       "dragAndDrop": "Ziehen Sie Ihr Bild per Drag & Drop hierher",
       "or": "Oder",
       "pickImage": "Wählen Sie das Signaturbild"
+    },
+    "customStampModal": {
+      "stampText": "Stempeltext:",
+      "timestampText": " Zeitstempeltext:",
+      "stampColor": "Stempelfarbe:",
+      "Username": "Nutzername",
+      "Date": "Datum",
+      "Time": "Zeit"
     },
     "status": {
       "status": "Status"
@@ -234,7 +243,7 @@
     },
     "styleOption": {
       "style": "Stil",
-      "solid": "Solide",
+      "solid": "Regulär",
       "cloudy": "Wolkig"
     },
     "slider": {
@@ -257,10 +266,11 @@
     "thumbnailPanel": {
       "delete": "Löschen",
       "rotateClockwise": "Im Uhrzeigersinn",
-      "rotateCounterClockwise": "Gegen den Uhrzeigersinn"
+      "rotateCounterClockwise": "Gegen den Uhrzeigersinn",
+      "extractZeroPageError": "Es wurden keine Seiten zum Extrahieren ausgewählt"
     },
     "richText": {
-      "bold": "Mutig",
+      "bold": "Fett",
       "italic": "Kursiv",
       "underline": "Unterstreichen",
       "strikeout": "Durchgestrichen"
@@ -280,7 +290,7 @@
   "shortcut": {
     "arrow": "(A)",
     "callout": "(C)",
-    "copy": "(Ctrl C)",
+    "copy": "(Strg C)",
     "delete": "(Del)",
     "ellipse": "(O)",
     "eraser": "(E)",
@@ -290,8 +300,8 @@
     "line": "(L)",
     "pan": "(P)",
     "rectangle": "(R)",
-    "rotateClockwise": "(Ctrl Shift +)",
-    "rotateCounterClockwise": "(Ctrl Shift -)",
+    "rotateClockwise": "(Strg Shift +)",
+    "rotateCounterClockwise": "(Strg Shift -)",
     "select": "(Esc)",
     "signature": "(S)",
     "squiggly": "(G)",
@@ -299,8 +309,9 @@
     "stickyNote": "(N)",
     "strikeout": "(K)",
     "underline": "(U)",
-    "zoomIn": "(Ctrl +)",
-    "zoomOut": "(Ctrl -)",
+    "zoomIn": "(Strg +)",
+    "zoomOut": "(Strg -)",
+    "rubberStamp": "(Q)",
     "richText": {
       "bold": "(Strg B)",
       "italic": "(Strg I)",
@@ -312,7 +323,9 @@
     "pan": "Hand",
     "select": "Auswählen",
     "Marquee": "Auswahl Zoom",
-    "Link": "Link URL oder Seite"
+    "Link": "Link URL oder Seite",
+    "Standard": "Standard",
+    "Custom": "Benutzerdefiniert"
   },
   "link": {
     "url": "URL",
@@ -322,7 +335,7 @@
   },
   "datePicker": {
     "previousMonth": "Vorheriger Monat",
-    "nextMonth": "Nächsten Monat",
+    "nextMonth": "Nächster Monat",
     "months": {
       "0": "Januar",
       "1": "Februar",

@@ -123,7 +123,8 @@
     "redaction": "Redaction",
     "viewControlsOverlay": "Layout settings",
     "measurementToolsButton": "Measurement tools",
-    "calibration": "Calibration"
+    "calibration": "Calibration",
+    "createStampButton": "Create New Stamp"
   },
   "message": {
     "badDocument": "Failed to load document. The document is either corrupt or not valid.",
@@ -186,6 +187,7 @@
       "all": "All",
       "current": "Current",
       "pages": "Pages",
+      "includeAnnotations": "Include annotations",
       "includeComments": "Include comments",
       "addWatermarkSettings": "Add Watermark Settings"
     },
@@ -205,6 +207,14 @@
       "dragAndDrop": "Drag & Drop your image here",
       "or": "Or",
       "pickImage": "Pick Signature Image"
+    },
+    "customStampModal": {
+      "stampText": "Stamp text:",
+      "timestampText": " Timestamp text:",
+      "stampColor": "Stamp color:",
+      "Username": "Username",
+      "Date":"Date",
+      "Time":"Time"
     },
     "status": {
       "status": "Status"
@@ -303,6 +313,7 @@
     "underline": "(U)",
     "zoomIn": "(Ctrl +)",
     "zoomOut": "(Ctrl -)",
+    "rubberStamp": "(Q)",
     "richText": {
       "bold": "(Ctrl B)",
       "italic": "(Ctrl I)",
@@ -314,7 +325,9 @@
     "pan": "Pan",
     "select": "Select",
     "Marquee": "Marquee Zoom",
-    "Link": "Link URL or Page"
+    "Link": "Link URL or Page",
+    "Standard": "Standard",
+    "Custom": "Custom"
   },
   "link": {
     "url": "URL",
