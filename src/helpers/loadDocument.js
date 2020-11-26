@@ -33,7 +33,7 @@ const getDefaultOptions = () => ({
   forceClientSideInit: getHashParams('forceClientSideInit', false),
   disableWebsockets: getHashParams('disableWebsockets', false),
   cacheKey: JSON.parse(getHashParams('cacheKey', null)),
-  streaming: getHashParams('streaming', false),
+  streaming: getHashParams('streaming', null),
   useDownloader: getHashParams('useDownloader', true),
   backendType: getHashParams('pdf', null),
   loadAsPDF: getHashParams('loadAsPDF', null),
@@ -68,19 +68,17 @@ const transformPasswordOption = (password, dispatch) => {
 };
 
 const extractXodOptions = options => {
-  const xodOptions = {};
+  const xodOptions = options.xodOptions || {};
 
   if (options.decryptOptions) {
     xodOptions.decrypt = window.CoreControls.Encryption.decrypt;
     xodOptions.decryptOptions = options.decryptOptions;
   }
 
-  if (options.decrypt) {
-    xodOptions.decrypt = options.decrypt;
-  }
-
-  if (options.streaming) {
-    xodOptions.streaming = options.streaming;
+  if (options.streaming !== null) {
+    // depending on combination of value in loadDocument and in WV constructor
+    // getHashedParam will either return back a boolean or a stringed boolean value
+    xodOptions.streaming = options.streaming === 'true' || options.streaming === true;
   }
 
   if (options.azureWorkaround) {

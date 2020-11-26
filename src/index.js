@@ -26,6 +26,7 @@ import logDebugInfo from 'helpers/logDebugInfo';
 import rootReducer from 'reducers/rootReducer';
 import getHashParams from 'helpers/getHashParams';
 
+
 const middleware = [thunk];
 
 if (process.env.NODE_ENV === 'development') {
@@ -72,7 +73,6 @@ if (window.CanvasRenderingContext2D) {
     window.CoreControls.disableLogs(true);
   }
 
-  window.CoreControls.enableSubzero(getHashParams('subzero', false));
   window.CoreControls.setWorkerPath('../core');
   window.CoreControls.setResourcesPath('../core/assets');
 
@@ -137,7 +137,6 @@ if (window.CanvasRenderingContext2D) {
       const tool = docViewer.getTool(window.Tools.ToolNames.STICKY);
       tool?.setSaveViewState(true);
     }
-
     setupDocViewer();
     setupI18n(state);
     setUserPermission(state);

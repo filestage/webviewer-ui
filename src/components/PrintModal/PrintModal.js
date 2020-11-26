@@ -44,6 +44,7 @@ class PrintModal extends React.PureComponent {
     this.customPages = React.createRef();
     this.customInput = React.createRef();
     this.includeComments = React.createRef();
+    this.includeAnnotations = React.createRef();
     this.pendingCanvases = [];
     this.state = {
       allowWatermarkModal: false,
@@ -165,10 +166,9 @@ class PrintModal extends React.PureComponent {
 
     this.pendingCanvases = [];
     this.state.pagesToPrint.forEach(pageNumber => {
-      creatingPages.push(this.creatingImage(pageNumber));
-
       const printableAnnotations = this.getPrintableAnnotations(pageNumber);
-      if (this.includeComments.current.checked && printableAnnotations.length) {
+      creatingPages.push(this.creatingImage(pageNumber, printableAnnotations));
+      if (this.includeComments.current && this.includeComments.current.checked && printableAnnotations.length) {
         const sortedNotes = getSortStrategies()[
           this.props.sortStrategy
         ].getSortedNotes(printableAnnotations);
@@ -179,31 +179,39 @@ class PrintModal extends React.PureComponent {
     return creatingPages;
   };
 
-  creatingImage = pageNumber =>
+  creatingImage = (pageNumber, printableAnnotations) =>
     new Promise(resolve => {
       const pageIndex = pageNumber - 1;
       const zoom = 1;
       const printRotation = this.getPrintRotation(pageIndex);
-      const onCanvasLoaded = canvas => {
+      const onCanvasLoaded = async canvas => {
         this.pendingCanvases = this.pendingCanvases.filter(
           pendingCanvas => pendingCanvas !== id,
         );
         this.positionCanvas(canvas, pageIndex);
-        this.drawAnnotationsOnCanvas(canvas, pageNumber)
-          .then(() => {
-            const img = document.createElement('img');
-            img.src = canvas.toDataURL();
-            img.onload = () => {
-              this.setState(({ count }) => ({
-                count: count < 0 ? -1 : count + 1,
-              }));
-              resolve(img);
-            };
-          });
+
+        if (this.includeAnnotations.current && this.includeAnnotations.current.checked) {
+          await this.drawAnnotationsOnCanvas(canvas, pageNumber);
+        } else {
+          // disable all printable annotations before draw
+          printableAnnotations.forEach(annot => annot.Printable = false);
+          await this.drawAnnotationsOnCanvas(canvas, pageNumber);
+          // enable all printable annotations after draw
+          printableAnnotations.forEach(annot => annot.Printable = true);
+        }
+
+        const img = document.createElement('img');
+        img.src = canvas.toDataURL();
+        img.onload = () => {
+          this.setState(({ count }) => ({
+            count: count < 0 ? -1 : count + 1,
+          }));
+          resolve(img);
+        };
       };
 
       const id = core.getDocument().loadCanvasAsync({
-        pageIndex,
+        pageNumber,
         zoom,
         pageRotation: printRotation,
         drawComplete: onCanvasLoaded,
@@ -212,7 +220,7 @@ class PrintModal extends React.PureComponent {
     });
 
   getPrintRotation = pageIndex => {
-    const { width, height } = core.getPageInfo(pageIndex);
+    const { width, height } = core.getPageInfo(pageIndex + 1);
     const documentRotation = this.getDocumentRotation(pageIndex);
     let printRotation = (4 - documentRotation) % 4;
 
@@ -227,7 +235,7 @@ class PrintModal extends React.PureComponent {
   };
 
   positionCanvas = (canvas, pageIndex) => {
-    const { width, height } = core.getPageInfo(pageIndex);
+    const { width, height } = core.getPageInfo(pageIndex + 1);
     const documentRotation = this.getDocumentRotation(pageIndex);
     const ctx = canvas.getContext('2d');
 
@@ -255,38 +263,38 @@ class PrintModal extends React.PureComponent {
   };
 
   drawAnnotationsOnCanvas = (canvas, pageNumber) => {
-    const annotations = core
+    const widgetAnnotations = core
       .getAnnotationsList()
       .filter(
         annot =>
-          annot.PageNumber === pageNumber &&
-          annot instanceof window.Annotations.WidgetAnnotation,
+          annot.PageNumber === pageNumber && annot instanceof window.Annotations.WidgetAnnotation
       );
-
-    if (annotations.length === 0) {
+    // just draw markup annotations
+    if (widgetAnnotations.length === 0) {
       return core.drawAnnotations(pageNumber, canvas);
     }
-
+    // draw all annotations
     const widgetContainer = this.createWidgetContainer(pageNumber - 1);
-    return core
-      .drawAnnotations(pageNumber, canvas, true, widgetContainer)
-      .then(() => {
-        document.body.appendChild(widgetContainer);
-        return window
-          .html2canvas(widgetContainer, {
+    return core.drawAnnotations(pageNumber, canvas, true, widgetContainer).then(() => {
+      document.body.appendChild(widgetContainer);
+
+      return import(/* webpackChunkName: 'html2canvas' */ 'html2canvas').then(
+        ({ default: html2canvas }) => {
+          return html2canvas(widgetContainer, {
             canvas,
             backgroundColor: null,
             scale: 1,
             logging: false,
-          })
-          .then(() => {
+          }).then(() => {
             document.body.removeChild(widgetContainer);
           });
-      });
+        }
+      );
+    });
   };
 
   createWidgetContainer = pageIndex => {
-    const { width, height } = core.getPageInfo(pageIndex);
+    const { width, height } = core.getPageInfo(pageIndex + 1);
     const widgetContainer = document.createElement('div');
 
     widgetContainer.id = 'printWidgetContainer';
@@ -553,6 +561,15 @@ class PrintModal extends React.PureComponent {
                   name="comments"
                   type="checkbox"
                   label={t('option.print.includeComments')}
+                  disabled={isPrinting}
+                />
+                <Input
+                  dataElement="annotationsPrintOption"
+                  ref={this.includeAnnotations}
+                  id="include-annotations"
+                  name="annotations"
+                  type="checkbox"
+                  label={t('option.print.includeAnnotations')}
                   disabled={isPrinting}
                 />
               </form>

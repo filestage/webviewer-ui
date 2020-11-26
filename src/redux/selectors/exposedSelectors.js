@@ -85,6 +85,8 @@ export const isDocumentReadOnly = state => state.viewer.isReadOnly;
 
 export const getCustomPanels = state => state.viewer.customPanels;
 
+export const getCustomModals = state => state.viewer.customModals;
+
 export const getPageLabels = state => state.viewer.pageLabels;
 
 export const getSelectedThumbnailPageIndexes = state => state.viewer.selectedThumbnailPageIndexes;
@@ -104,6 +106,8 @@ export const getColorMap = state => state.viewer.colorMap;
 export const getCursorOverlayData = state => state.viewer.cursorOverlay;
 
 export const getOpenElements = state => state.viewer.openElements;
+
+export const getDisabledElements = state => state.viewer.disabledElements;
 
 export const getCurrentPalette = (state, colorMapKey) =>
   state.viewer.colorMap[colorMapKey]?.currentPalette;
@@ -149,6 +153,8 @@ export const getAllowPageNavigation = state => state.viewer.allowPageNavigation;
 export const getCustomMeasurementOverlay = state => state.viewer.customMeasurementOverlay;
 
 export const getAnnotationContentOverlayHandler = state => state.viewer.annotationContentOverlayHandler;
+
+export const getEnableMouseWheelZoom = state => state.viewer.enableMouseWheelZoom;
 
 // warning message
 export const getWarningMessage = state => state.viewer.warning?.message || '';

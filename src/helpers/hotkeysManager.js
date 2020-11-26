@@ -138,7 +138,7 @@ const HotkeysManager = {
   },
   /**
    * Add an event handler for the given hotkey
-   * @method WebViewerInstance.Hotkeys#on
+   * @method WebViewerInstance.Hotkeys.on
    * @param {string} key A keyboard key <br/>
    * If a hotkey is consisted of more than one key. Those keys should be connected using '+'.
    * @param {function|object} [handler] An optional argument <br/>
@@ -195,7 +195,7 @@ WebViewer(...)
   },
   /**
    * Remove an event handler for the given hotkey
-   * @method WebViewerInstance.Hotkeys#off
+   * @method WebViewerInstance.Hotkeys.off
    * @param {string} [key] An optional keyboard key. If not passed, all handlers will be removed
    * @param {function} [handler] An optional function. If not passed, all handlers of the given key will be removed
    * @example
@@ -317,10 +317,15 @@ WebViewer(...)
         const scrollViewElement = core.getScrollViewElement();
         const { scrollHeight, clientHeight } = scrollViewElement;
         const reachedTop = scrollViewElement.scrollTop === 0;
+
         if (reachedTop) {
-          setCurrentPage(core.getCurrentPage() - getNumberOfPagesToNavigate());
-          // set the scrollbar to be at the bottom of the page
-          scrollViewElement.scrollTop = scrollHeight - clientHeight;
+          const currentPage = core.getCurrentPage();
+          setCurrentPage(currentPage - getNumberOfPagesToNavigate());
+
+          // set the scrollbar to be at the bottom of the page only if the previous page is bigger than 1
+          if (currentPage > 1) {
+            scrollViewElement.scrollTop = scrollHeight - clientHeight;
+          }
         }
       },
       [`${Keys.DOWN}`]: () => {
@@ -409,7 +414,11 @@ WebViewer(...)
         setToolModeAndGroup(store, 'AnnotationCreateRectangle');
       }),
       [`${Keys.Q}`]: this.createToolHotkeyHandler(() => {
-        setToolModeAndGroup(store, 'AnnotationCreateRubberStamp');
+        const stampToolButton = document.querySelector(
+          '[data-element="rubberStampToolButton"] .Button'
+        );
+
+        stampToolButton?.click();
       }),
       [`${Keys.T}`]: this.createToolHotkeyHandler(() => {
         setToolModeAndGroup(store, 'AnnotationCreateFreeText');
@@ -462,11 +471,14 @@ WebViewer(...)
     return (...args) => {
       const openElements = selectors.getOpenElements(getState());
       const currentToolName = core.getToolMode().name;
-    
+
       // disable changing tool when the signature overlay is opened.
       const isSignatureModalOpen = currentToolName === window.Tools.ToolNames.SIGNATURE && openElements['signatureModal'];
 
-      if (isFocusingElement() || isSignatureModalOpen) {
+      // disable changing tool when the stamp overlay is opened.
+      const isStampCreateModalOpen = currentToolName === window.Tools.ToolNames.RUBBER_STAMP && openElements['customStampModal'];
+
+      if (isFocusingElement() || isSignatureModalOpen || isStampCreateModalOpen) {
         return;
       }
 
