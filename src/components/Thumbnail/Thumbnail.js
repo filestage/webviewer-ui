@@ -109,17 +109,14 @@ class Thumbnail extends React.PureComponent {
     const { index, onLoad } = this.props;
     const { thumbContainer } = this;
     const { current } = thumbContainer;
+    const pageNum = index + 1;
 
-    const id = core.loadThumbnailAsync(index, (thumb) => {
-      thumb.className = "page-image";
-
+    const id = core.loadThumbnailAsync(pageNum, thumb => {
       const thumbnailSize = getThumbnailSize();
+     
+      thumb.className = 'page-image';
 
-      const ratio = Math.min(
-        thumbnailSize / thumb.width,
-        thumbnailSize / thumb.height
-      );
-
+      const ratio = Math.min(thumbnailSize / thumb.width, thumbnailSize / thumb.height);
       thumb.style.width = `${thumb.width * ratio}px`;
       thumb.style.height = `${thumb.height * ratio}px`;
 
@@ -149,14 +146,12 @@ class Thumbnail extends React.PureComponent {
     } = this.props;
 
     if (isThumbnailMultiselectEnabled) {
-      let togglingSelectedPage = e.ctrlKey || e.metaKey;
+      const togglingSelectedPage = e.ctrlKey || e.metaKey;
       let updatedSelectedPages = [...selectedPageIndexes];
 
       if (togglingSelectedPage) {
         if (selectedPageIndexes.indexOf(index) > -1) {
-          updatedSelectedPages = selectedPageIndexes.filter(
-            (pageIndex) => index !== pageIndex
-          );
+          updatedSelectedPages = selectedPageIndexes.filter(pageIndex => index !== pageIndex);
         } else {
           updatedSelectedPages.push(index);
         }

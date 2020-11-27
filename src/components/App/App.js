@@ -38,13 +38,13 @@ import PrintHandler from 'components/PrintHandler';
 import FontHandler from 'components/FontHandler';
 import ZoomOverlay from 'components/ZoomOverlay';
 import AnnotationToolsOverlay from 'components/AnnotationToolsOverlay';
+import CreateStampModal from 'components/CreateStampModal';
+import CustomModal from 'components/CustomModal';
 
 import defineReaderControlAPIs from 'src/apis';
 import fireEvent from 'helpers/fireEvent';
 
 import './App.scss';
-import 'constants/pikaday.scss';
-import 'constants/quill.scss';
 
 const propTypes = {
   removeEventHandlers: PropTypes.func.isRequired,
@@ -100,7 +100,9 @@ const App = ({ removeEventHandlers }) => {
         <PasswordModal />
         <ProgressModal />
         <CalibrationModal />
+        <CreateStampModal />
         <LinkModal />
+        <CustomModal />
       </div>
 
       <PrintHandler />

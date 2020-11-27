@@ -98,6 +98,7 @@ export default (enable, store) => features => {
       fn: () => {
         if (!enable) {
           core.clearSelection();
+          core.setToolMode('AnnotationEdit');
         }
         window.Tools.Tool.ENABLE_TEXT_SELECTION = enable;
       },
@@ -166,6 +167,11 @@ export default (enable, store) => features => {
         touchEventManager.allowSwipe = enable;
         store.dispatch(actions.setAllowPageNavigation(enable));
       },
+    },
+    [Feature.MouseWheelZoom]: {
+      fn: () => {
+        store.dispatch(actions.setMouseWheelZoom(enable));
+      }
     },
   };
 

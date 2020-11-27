@@ -116,4 +116,10 @@ module.exports = {
       core: path.resolve(__dirname, 'src/core/'),
     },
   },
+  optimization: {
+    splitChunks: {
+      automaticNameDelimiter: '.',
+      minSize: 0,
+    },
+  },
 };

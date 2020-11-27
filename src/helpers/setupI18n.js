@@ -18,6 +18,10 @@ export default () => {
     window.Tools.FreeTextCreateTool.setTextHandler(() =>
       t("message.insertTextHere")
     );
+
+    window.Tools.CalloutCreateTool.setTextHandler(() =>
+      t('message.insertTextHere'),
+    );
   };
 
   i18next.use(initReactI18next).init(

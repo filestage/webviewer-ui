@@ -5,6 +5,7 @@ import PageNav from 'components/PageNav';
 import ToggleMarkersSwitch from 'components/ToggleMarkersSwitch';
 import ToggleZoomOverlay from 'components/ToggleZoomOverlay';
 
+import RubberStampToolButton from 'components/RubberStampToolButton';
 import core from 'core';
 import getHashParams from 'helpers/getHashParams';
 import { zoomIn, zoomOut } from 'helpers/zoom';
@@ -65,6 +66,11 @@ export default {
         { type: 'toolButton', toolName: 'AnnotationCreateFreeText' },
         { type: 'toolButton', toolName: 'AnnotationCreateSticky' },
         { type: 'toolButton', toolName: 'AnnotationEraserTool' },
+        {
+          type: 'customElement',
+          render: () => <RubberStampToolButton />,
+          dataElement: 'rubberStampToolButton',
+        },
         { type: 'toolGroupButton', toolGroup: 'miscTools', img: 'ic_more_black_24px', dataElement: 'miscToolGroupButton', title: 'component.miscToolsButton', showColor: 'never' },
         { type: 'spacer' },
         {
@@ -137,7 +143,7 @@ export default {
       AnnotationCreateSticky: { dataElement: 'stickyToolButton', title: 'annotation.stickyNote', img: 'ic_annotation_sticky_note_black_24px', showColor: 'never' },
       AnnotationCreateCallout: { dataElement: 'calloutToolButton', title: 'annotation.callout', img: 'ic_annotation_callout_black_24px', group: 'miscTools', showColor: 'active' },
       AnnotationCreateStamp: { dataElement: 'stampToolButton', title: 'annotation.stamp', img: 'ic_annotation_image_black_24px', group: 'miscTools', showColor: 'active' },
-      AnnotationCreateRubberStamp: { dataElement: 'rubberStampToolButton', title: 'annotation.rubberStamp', img: 'ic_annotation_stamp_black_24px', group: 'miscTools', showColor: 'active' },
+      AnnotationCreateRubberStamp: { dataElement: 'rubberStampToolButton', title: 'annotation.rubberStamp', img: 'ic_annotation_stamp_black_24px', group: '', showColor: 'active' },
       AnnotationCreateFileAttachment: { dataElement: 'fileAttachmentToolButton', title: 'annotation.fileattachment', img: 'ic_fileattachment_24px', group: 'miscTools', showColor: 'active' },
       [Tools.ToolNames.RECTANGULAR_AREA_MEASUREMENT]: { dataElement: 'rectangularAreaMeasurementToolButton', title: 'annotation.areaMeasurement', img: 'ic_annotation_rectangular_area_black_24px', group: 'measurementTools', showColor: 'active' },
       Pan: { dataElement: 'panToolButton', title: 'tool.pan', img: 'ic_pan_black_24px', showColor: 'never' },
@@ -150,8 +156,13 @@ export default {
     tab: {
       signatureModal: 'inkSignaturePanelButton',
       linkModal: 'URLPanelButton',
+      rubberStampTab: 'standardStampPanelButton',
     },
-    customElementOverrides: {},
+    customElementOverrides: {
+      colorPalette: {
+        customStamp: window.Tools.RubberStampCreateTool['FILL_COLORS']
+      },
+    },
     activeHeaderGroup: 'default',
     activeToolName: 'AnnotationEdit',
     activeToolStyles: {},
@@ -171,8 +182,10 @@ export default {
     isThumbnailReordering: true,
     isThumbnailMultiselect: true,
     allowPageNavigation: true,
+    enableMouseWheelZoom: true,
     doesAutoLoad: getHashParams('auto_load', true),
     isReadOnly: getHashParams('readonly', false),
+    customModals: [],
     customPanels: [],
     useEmbeddedPrint: false,
     pageLabels: [],
