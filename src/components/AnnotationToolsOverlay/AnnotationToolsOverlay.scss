@@ -7,7 +7,7 @@
   width: auto;
   top: 20px;
   left: 50%;
-  margin-left: calc(-#{$right-panel-width} / 2 - 75px);
+  margin-left: calc(-#{$right-panel-width} / 2 - 53px);
   padding: 0;
   border-radius: 5px;
   background: rgba(20, 20, 20, 0.95);
@@ -16,7 +16,7 @@
 
   @include mobile {
     top: calc(#{$panel-height} + 20px);
-    left: calc(50% - 70px);
+    left: calc(50% - 61.5px);
     margin: 0;
   }
 
