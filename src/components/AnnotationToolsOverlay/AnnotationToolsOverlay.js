@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 
 import core from "core";
 import selectors from "selectors";
-import { isMobileDevice } from "helpers/device";
+import { isIOS, isAndroid } from "helpers/device";
 
 import ToolButton from "components/ToolButton";
 import "./AnnotationToolsOverlay.scss";
@@ -33,17 +33,15 @@ const AnnotationToolsOverlay = () => {
       }, MAX_INACTIVITY_MS);
     };
 
-    if (!isMobileDevice) {
-      core.addEventListener("mouseMove", onMouseHover);
+    core.addEventListener("mouseMove", onMouseHover);
 
-      return () => {
-        core.removeEventListener("mouseMove", onMouseHover);
+    return () => {
+      core.removeEventListener("mouseMove", onMouseHover);
 
-        if (typeof timeoutId === "number") {
-          clearTimeout(timeoutId);
-        }
-      };
-    }
+      if (typeof timeoutId === "number") {
+        clearTimeout(timeoutId);
+      }
+    };
   }, []);
 
   return isDisabled || isHiddenDueToInactivity ? null : (
@@ -53,7 +51,7 @@ const AnnotationToolsOverlay = () => {
     >
       <ToolButton toolName="AnnotationCreateTextHighlight" />
       <ToolButton toolName="AnnotationCreateTextStrikeout" />
-      {isMobileDevice && <ToolButton toolName="AnnotationCreateSticky" />}
+      {(isIOS || isAndroid) && <ToolButton toolName="AnnotationCreateSticky" />}
     </div>
   );
 };
