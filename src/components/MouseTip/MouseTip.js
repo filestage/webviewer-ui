@@ -29,9 +29,13 @@ const MouseTip = () => {
       const viewElement = core.getViewerElement();
       let annotation = core.getAnnotationManager().getAnnotationByMouseEvent(e);
 
-      const isTextToolMode = core.getToolMode().name.includes("Text");
+      const isTextSelectToolMode = core.getToolMode().name === "TextSelect";
 
-      if (!annotation && isTextToolMode && viewElement.contains(e.target)) {
+      if (
+        !annotation &&
+        isTextSelectToolMode &&
+        viewElement.contains(e.target)
+      ) {
         setOverlayPosition({
           left: e.clientX + 25,
           top: e.clientY + 10,

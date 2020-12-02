@@ -1,42 +1,22 @@
-import i18next from 'i18next';
-import XHR from 'i18next-xhr-backend';
+import i18next from "i18next";
+import { initReactI18next } from "react-i18next";
 
-// https://github.com/isaachinman/next-i18next/issues/562
-// the values in this array should match the language codes of the json files inside the i18n folder
-i18next.languages = [
-  'en',
-  'de',
-  'es',
-  'fr',
-  'it',
-  'ja',
-  'ko',
-  'nl',
-  'pt_br',
-  'ru',
-  'zh_cn',
-  'zh_tw'
-];
+import en from "../../i18n/translation-en.json";
+import de from "../../i18n/translation-de.json";
+import fr from "../../i18n/translation-fr.json";
 
-export default state => {
-  const options = {
-    fallbackLng: 'en',
-    react: {
-      useSuspense: false,
-      wait: true,
-    },
-  };
+export default () => {
   const callback = (err, t) => {
-    window.Annotations.Utilities.setAnnotationSubjectHandler(type =>
-      t(`annotation.${type}`),
+    window.Annotations.Utilities.setAnnotationSubjectHandler((type) =>
+      t(`annotation.${type}`)
     );
 
     window.Tools.SignatureCreateTool.setTextHandler(() =>
-      t('message.signHere'),
+      t("message.signHere")
     );
 
     window.Tools.FreeTextCreateTool.setTextHandler(() =>
-      t('message.insertTextHere'),
+      t("message.insertTextHere")
     );
 
     window.Tools.CalloutCreateTool.setTextHandler(() =>
@@ -44,17 +24,19 @@ export default state => {
     );
   };
 
-  if (state.advanced.disableI18n) {
-    i18next.init(options, callback);
-  } else {
-    i18next.use(XHR).init(
-      {
-        ...options,
-        backend: {
-          loadPath: './i18n/{{ns}}-{{lng}}.json',
-        },
+  i18next.use(initReactI18next).init(
+    {
+      resources: {
+        en: { translation: en },
+        de: { translation: de },
+        fr: { translation: fr },
       },
-      callback,
-    );
-  }
+      fallbackLng: "en",
+      react: {
+        useSuspense: false,
+        wait: true,
+      },
+    },
+    callback
+  );
 };
