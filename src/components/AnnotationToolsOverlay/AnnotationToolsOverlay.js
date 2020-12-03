@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 
 import core from "core";
 import selectors from "selectors";
-import { isIOS, isAndroid } from "helpers/device";
+import { isIOS, isAndroid, isMobile } from "helpers/device";
 
 import ToolButton from "components/ToolButton";
 import "./AnnotationToolsOverlay.scss";
@@ -44,14 +44,18 @@ const AnnotationToolsOverlay = () => {
     };
   }, []);
 
-  return isDisabled || isHiddenDueToInactivity ? null : (
+  return isDisabled || (isHiddenDueToInactivity && !isMobile()) ? null : (
     <div
       className="Overlay AnnotationToolsOverlay"
       data-element="annotationToolsOverlay"
     >
-      <ToolButton toolName="AnnotationCreateTextHighlight" />
-      <ToolButton toolName="AnnotationCreateTextStrikeout" />
-      {(isIOS || isAndroid) && <ToolButton toolName="AnnotationCreateSticky" />}
+      <div className="AnnotationsToolbar">
+        <ToolButton toolName="AnnotationCreateTextHighlight" />
+        <ToolButton toolName="AnnotationCreateTextStrikeout" />
+        {(isIOS || isAndroid) && (
+          <ToolButton toolName="AnnotationCreateSticky" />
+        )}
+      </div>
     </div>
   );
 };
