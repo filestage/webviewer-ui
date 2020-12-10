@@ -5,6 +5,7 @@ import Hidden from "@material-ui/core/Hidden";
 import { createMuiTheme } from "@material-ui/core/styles";
 import { ThemeProvider } from "@material-ui/styles";
 import { useTranslation } from "react-i18next";
+import Tooltip from "components/Tooltip";
 
 import core from "core";
 import "./ToggleMarkersSwitch.scss";
@@ -27,23 +28,25 @@ const ToggleMarkersSwitch = () => {
 
   return (
     <ThemeProvider theme={theme}>
-      <div className="ToggleMarkersSwitch">
-        <FormControlLabel
-          control={
-            <Switch
-              color="primary"
-              onChange={(evt) => {
-                if (evt.target.checked) {
-                  core.hideAnnotations(core.getAnnotationsList());
-                } else {
-                  core.showAnnotations(core.getAnnotationsList());
-                }
-              }}
-            />
-          }
-          label={<Hidden smDown>{t("action.hideMarkers")}</Hidden>}
-        />
-      </div>
+      <Tooltip content="action.hideMarkers">
+        <div className="ToggleMarkersSwitch">
+          <FormControlLabel
+            control={
+              <Switch
+                color="primary"
+                onChange={(evt) => {
+                  if (evt.target.checked) {
+                    core.hideAnnotations(core.getAnnotationsList());
+                  } else {
+                    core.showAnnotations(core.getAnnotationsList());
+                  }
+                }}
+              />
+            }
+            label={<Hidden smDown>{t("action.hideMarkers")}</Hidden>}
+          />
+        </div>
+      </Tooltip>
     </ThemeProvider>
   );
 };
