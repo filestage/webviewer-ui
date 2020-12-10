@@ -11,7 +11,7 @@ export default (dispatch, src, options = {}) => {
   options.onLoadingProgress = percent => dispatch(actions.setLoadingProgress(percent));
   options.password = transformPasswordOption(options.password, dispatch);
   options.xodOptions = extractXodOptions(options);
-  options.onError = fireError;
+  options.onError = options.onError || fireError;
 
   dispatch(actions.closeElement('passwordModal'));
   core.loadDocument(src, options);
