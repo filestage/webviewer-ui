@@ -82,6 +82,7 @@ import saveAnnotations from './saveAnnotations';
 import searchText from './searchText';
 import searchTextFull from './searchTextFull';
 import setActiveHeaderGroup from './setActiveHeaderGroup';
+import setActiveTextAnnotation from './setActiveTextAnnotation';
 import setActiveLeftPanel from './setActiveLeftPanel';
 import setAdminUser from './setAdminUser';
 import setAnnotationUser from './setAnnotationUser';
@@ -177,6 +178,7 @@ export default store => {
     searchText: searchText(store),
     searchTextFull: searchTextFull(store),
     setActiveHeaderGroup: setActiveHeaderGroup(store),
+    setActiveTextAnnotation: setActiveTextAnnotation(store),
     setActiveLeftPanel: setActiveLeftPanel(store),
     setCustomModal: setCustomModal(store),
     setCustomNoteFilter: setCustomNoteFilter(store),

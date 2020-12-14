@@ -1,26 +1,27 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { List } from 'react-virtualized';
-import Measure from 'react-measure';
-import classNames from 'classnames';
+import React from "react";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import { List, Grid, AutoSizer } from "react-virtualized";
+import Measure from "react-measure";
+import classNames from "classnames";
+import { isMobile } from "helpers/device";
 
-import Thumbnail, { THUMBNAIL_SIZE } from 'components/Thumbnail';
-import DocumentControls from 'components/DocumentControls';
+import Thumbnail, { getThumbnailSize } from "components/Thumbnail";
+import DocumentControls from "components/DocumentControls";
 
-import core from 'core';
+import core from "core";
 import {
   extractPagesToMerge,
   mergeExternalWebViewerDocument,
   mergeDocument,
-} from 'helpers/pageManipulation';
-import { workerTypes } from 'constants/types';
-import selectors from 'selectors';
-import actions from 'actions';
+} from "helpers/pageManipulation";
+import { workerTypes } from "constants/types";
+import selectors from "selectors";
+import actions from "actions";
 
-import './ThumbnailsPanel.scss';
+import "./ThumbnailsPanel.scss";
 
-const dataTransferWebViewerFrameKey = 'dataTransferWebViewerFrame';
+const dataTransferWebViewerFrameKey = "dataTransferWebViewerFrame";
 
 class ThumbnailsPanel extends React.PureComponent {
   static propTypes = {
@@ -59,25 +60,25 @@ class ThumbnailsPanel extends React.PureComponent {
   }
 
   componentDidMount() {
-    core.addEventListener('beginRendering', this.onBeginRendering);
-    core.addEventListener('finishedRendering', this.onFinishedRendering);
-    core.addEventListener('annotationChanged', this.onAnnotationChanged);
-    core.addEventListener('layoutChanged', this.onLayoutChanged);
-    core.addEventListener('documentLoaded', this.onDocumentLoaded);
-    core.addEventListener('pageNumberUpdated', this.onPageNumberUpdated);
-    core.addEventListener('pageComplete', this.onPageComplete);
-    core.addEventListener('annotationHidden', this.onAnnotationChanged);
+    core.addEventListener("beginRendering", this.onBeginRendering);
+    core.addEventListener("finishedRendering", this.onFinishedRendering);
+    core.addEventListener("annotationChanged", this.onAnnotationChanged);
+    core.addEventListener("layoutChanged", this.onLayoutChanged);
+    core.addEventListener("documentLoaded", this.onDocumentLoaded);
+    core.addEventListener("pageNumberUpdated", this.onPageNumberUpdated);
+    core.addEventListener("pageComplete", this.onPageComplete);
+    core.addEventListener("annotationHidden", this.onAnnotationChanged);
   }
 
   componentWillUnmount() {
-    core.removeEventListener('beginRendering', this.onBeginRendering);
-    core.removeEventListener('finishedRendering', this.onFinishedRendering);
-    core.removeEventListener('annotationChanged', this.onAnnotationChanged);
-    core.removeEventListener('layoutChanged', this.onLayoutChanged);
-    core.removeEventListener('documentLoaded', this.onDocumentLoaded);
-    core.removeEventListener('pageNumberUpdated', this.onPageNumberUpdated);
-    core.removeEventListener('pageComplete', this.onPageComplete);
-    core.removeEventListener('annotationHidden', this.onAnnotationChanged);
+    core.removeEventListener("beginRendering", this.onBeginRendering);
+    core.removeEventListener("finishedRendering", this.onFinishedRendering);
+    core.removeEventListener("annotationChanged", this.onAnnotationChanged);
+    core.removeEventListener("layoutChanged", this.onLayoutChanged);
+    core.removeEventListener("documentLoaded", this.onDocumentLoaded);
+    core.removeEventListener("pageNumberUpdated", this.onPageNumberUpdated);
+    core.removeEventListener("pageComplete", this.onPageComplete);
+    core.removeEventListener("annotationHidden", this.onAnnotationChanged);
   }
 
   onBeginRendering = () => {
@@ -103,7 +104,10 @@ class ThumbnailsPanel extends React.PureComponent {
     e.stopPropagation();
 
     const numberOfColumns = this.getNumberOfColumns(this.state.width);
-    const { isThumbnailReorderingEnabled, isThumbnailMergingEnabled } = this.props;
+    const {
+      isThumbnailReorderingEnabled,
+      isThumbnailMergingEnabled,
+    } = this.props;
 
     if (!isThumbnailReorderingEnabled && !isThumbnailMergingEnabled) {
       return;
@@ -115,7 +119,10 @@ class ThumbnailsPanel extends React.PureComponent {
       // row with more than 1 thumbnail so user are dragging to the left and right
       isDraggingToPreviousPage = !(e.pageX > thumbnail.x + thumbnail.width / 2);
     } else {
-      isDraggingToPreviousPage = !(e.pageY > thumbnail.y + thumbnail.height / 2);
+      isDraggingToPreviousPage = !(
+        e.pageY >
+        thumbnail.y + thumbnail.height / 2
+      );
     }
 
     this.setState({
@@ -131,13 +138,13 @@ class ThumbnailsPanel extends React.PureComponent {
       isMultipleViewerMerging,
       setSelectedPageThumbnails,
     } = this.props;
-    const draggingSelectedPage = selectedPageIndexes.some(i => i === index);
+    const draggingSelectedPage = selectedPageIndexes.some((i) => i === index);
     const pagesToMove = draggingSelectedPage
-      ? selectedPageIndexes.map(index => index + 1)
+      ? selectedPageIndexes.map((index) => index + 1)
       : [index + 1];
 
     // need to set 'text' to empty for drag to work in FireFox and mobile
-    e.dataTransfer.setData('text', '');
+    e.dataTransfer.setData("text", "");
 
     if (pagesToMove.length > 1) {
       // can't set to null so set to new instance of an image
@@ -145,9 +152,12 @@ class ThumbnailsPanel extends React.PureComponent {
     }
 
     if (isThumbnailMergingEnabled && isMultipleViewerMerging) {
-      e.dataTransfer.dropEffect = 'move';
-      e.dataTransfer.effectAllowed = 'all';
-      e.dataTransfer.setData(dataTransferWebViewerFrameKey, window.frameElement.id);
+      e.dataTransfer.dropEffect = "move";
+      e.dataTransfer.effectAllowed = "all";
+      e.dataTransfer.setData(
+        dataTransferWebViewerFrameKey,
+        window.frameElement.id
+      );
       extractPagesToMerge(pagesToMove);
     }
 
@@ -158,7 +168,7 @@ class ThumbnailsPanel extends React.PureComponent {
     core.setCurrentPage(index + 1);
   };
 
-  onDrop = e => {
+  onDrop = (e) => {
     e.preventDefault();
     const {
       isThumbnailMergingEnabled,
@@ -173,14 +183,20 @@ class ThumbnailsPanel extends React.PureComponent {
     const insertTo = isDraggingToPreviousPage
       ? draggingOverPageIndex + 1
       : draggingOverPageIndex + 2;
-    const externalPageWebViewerFrameId = e.dataTransfer.getData(dataTransferWebViewerFrameKey);
+    const externalPageWebViewerFrameId = e.dataTransfer.getData(
+      dataTransferWebViewerFrameKey
+    );
     const mergingDocument =
-      (externalPageWebViewerFrameId && window.frameElement.id !== externalPageWebViewerFrameId) ||
+      (externalPageWebViewerFrameId &&
+        window.frameElement.id !== externalPageWebViewerFrameId) ||
       files.length;
     const currentPageIndex = currentPage - 1;
 
     if (isThumbnailMergingEnabled && mergingDocument) {
-      if (externalPageWebViewerFrameId && window.frameElement.id !== externalPageWebViewerFrameId) {
+      if (
+        externalPageWebViewerFrameId &&
+        window.frameElement.id !== externalPageWebViewerFrameId
+      ) {
         mergeExternalWebViewerDocument(externalPageWebViewerFrameId, insertTo);
       } else if (files.length) {
         mergeDocument(files[0], insertTo);
@@ -191,12 +207,15 @@ class ThumbnailsPanel extends React.PureComponent {
           ? draggingOverPageIndex + 1
           : draggingOverPageIndex + 2;
 
-        const draggingSelectedPage = selectedPageIndexes.some(i => i === currentPageIndex);
+        const draggingSelectedPage = selectedPageIndexes.some(
+          (i) => i === currentPageIndex
+        );
         const pageNumbersToMove = draggingSelectedPage
-          ? selectedPageIndexes.map(i => i + 1)
+          ? selectedPageIndexes.map((i) => i + 1)
           : [currentPage];
         const afterMovePageNumber =
-          targetPageNumber - pageNumbersToMove.filter(p => p < targetPageNumber).length;
+          targetPageNumber -
+          pageNumbersToMove.filter((p) => p < targetPageNumber).length;
         this.afterMovePageNumber = afterMovePageNumber;
         core.movePages(pageNumbersToMove, targetPageNumber);
       }
@@ -204,7 +223,7 @@ class ThumbnailsPanel extends React.PureComponent {
     this.setState({ draggingOverPageIndex: null });
   };
 
-  onFinishedRendering = needsMoreRendering => {
+  onFinishedRendering = (needsMoreRendering) => {
     if (!needsMoreRendering) {
       this.setState({
         canLoad: true,
@@ -212,10 +231,10 @@ class ThumbnailsPanel extends React.PureComponent {
     }
   };
 
-  onAnnotationChanged = annots => {
+  onAnnotationChanged = (annots) => {
     const indices = [];
 
-    annots.forEach(annot => {
+    annots.forEach((annot) => {
       const pageIndex = annot.PageNumber - 1;
       if (!annot.Listable || indices.indexOf(pageIndex) > -1) {
         return;
@@ -226,7 +245,7 @@ class ThumbnailsPanel extends React.PureComponent {
     });
   };
 
-  onLayoutChanged = changes => {
+  onLayoutChanged = (changes) => {
     if (!changes) {
       return;
     }
@@ -235,13 +254,15 @@ class ThumbnailsPanel extends React.PureComponent {
 
     if (changes.removed) {
       updatedPagesIndexes = updatedPagesIndexes.filter(
-        pageIndex => changes.removed.indexOf(pageIndex + 1) === -1
+        (pageIndex) => changes.removed.indexOf(pageIndex + 1) === -1
       );
     }
 
     if (changes.moved) {
-      updatedPagesIndexes = updatedPagesIndexes.map(pageIndex =>
-        changes.moved[pageIndex + 1] ? changes.moved[pageIndex + 1] - 1 : pageIndex
+      updatedPagesIndexes = updatedPagesIndexes.map((pageIndex) =>
+        changes.moved[pageIndex + 1]
+          ? changes.moved[pageIndex + 1] - 1
+          : pageIndex
       );
     }
 
@@ -261,19 +282,30 @@ class ThumbnailsPanel extends React.PureComponent {
     setSelectedPageThumbnails([]);
   };
 
-  onPageNumberUpdated = pageNumber => {
+  onPageNumberUpdated = (pageNumber) => {
     const numberOfColumns = this.getNumberOfColumns(this.state.width);
     const pageIndex = pageNumber - 1;
-    this.listRef.current?.scrollToRow(Math.floor(pageIndex / numberOfColumns));
+
+    if (isMobile()) {
+      this.listRef.current?.scrollToCell({
+        columnIndex: pageIndex,
+        rowIndex: 0,
+      });
+    } else {
+      this.listRef.current?.scrollToRow(
+        Math.floor(pageIndex / numberOfColumns)
+      );
+    }
   };
 
-  getNumberOfColumns = width => {
+  getNumberOfColumns = (width) => {
     const numberOfColumns = Math.min(3, Math.max(1, Math.floor(width / 160)));
     return numberOfColumns;
   };
 
-  updateAnnotations = pageIndex => {
-    const thumbContainer = this.thumbs[pageIndex] && this.thumbs[pageIndex].element;
+  updateAnnotations = (pageIndex) => {
+    const thumbContainer =
+      this.thumbs[pageIndex] && this.thumbs[pageIndex].element;
     if (!thumbContainer) {
       return;
     }
@@ -285,14 +317,19 @@ class ThumbnailsPanel extends React.PureComponent {
     const { width, height } = this.getThumbnailSize(pageWidth, pageHeight);
 
     const annotCanvas =
-      thumbContainer.querySelector('.annotation-image') || document.createElement('canvas');
-    annotCanvas.className = 'annotation-image';
-    annotCanvas.style.maxWidth = `${THUMBNAIL_SIZE}px`;
-    annotCanvas.style.maxHeight = `${THUMBNAIL_SIZE}px`;
-    const ctx = annotCanvas.getContext('2d');
+      thumbContainer.querySelector(".annotation-image") ||
+      document.createElement("canvas");
+    annotCanvas.className = "annotation-image";
+
+    const thumbnailSize = getThumbnailSize();
+
+    annotCanvas.style.maxWidth = `${thumbnailSize}px`;
+    annotCanvas.style.maxHeight = `${thumbnailSize}px`;
+    const ctx = annotCanvas.getContext("2d");
 
     let zoom = 1;
-    let rotation = core.getCompleteRotation(pageNumber) - core.getRotation(pageNumber);
+    let rotation =
+      core.getCompleteRotation(pageNumber) - core.getRotation(pageNumber);
     if (rotation < 0) {
       rotation += 4;
     }
@@ -317,10 +354,10 @@ class ThumbnailsPanel extends React.PureComponent {
     let options = {
       pageNumber,
       overrideCanvas: annotCanvas,
-      namespace: 'thumbnails',
+      namespace: "thumbnails",
     };
 
-    var thumb = thumbContainer.querySelector('.page-image');
+    var thumb = thumbContainer.querySelector(".page-image");
 
     if (thumb) {
       options = {
@@ -340,14 +377,16 @@ class ThumbnailsPanel extends React.PureComponent {
     let height;
     let ratio;
 
+    const thumbnailSize = getThumbnailSize();
+
     if (pageWidth > pageHeight) {
-      ratio = pageWidth / THUMBNAIL_SIZE;
-      width = THUMBNAIL_SIZE;
+      ratio = pageWidth / thumbnailSize;
+      width = thumbnailSize;
       height = Math.round(pageHeight / ratio);
     } else {
-      ratio = pageHeight / THUMBNAIL_SIZE;
+      ratio = pageHeight / thumbnailSize;
       width = Math.round(pageWidth / ratio); // Chrome has trouble displaying borders of non integer width canvases.
-      height = THUMBNAIL_SIZE;
+      height = thumbnailSize;
     }
 
     return {
@@ -370,18 +409,18 @@ class ThumbnailsPanel extends React.PureComponent {
     }
   };
 
-  removeFromPendingThumbs = pageIndex => {
+  removeFromPendingThumbs = (pageIndex) => {
     const index = this.getPendingThumbIndex(pageIndex);
     if (index !== -1) {
       this.pendingThumbs.splice(index, 1);
     }
   };
 
-  thumbIsLoaded = pageIndex => this.thumbs[pageIndex]?.loaded;
+  thumbIsLoaded = (pageIndex) => this.thumbs[pageIndex]?.loaded;
 
-  thumbIsPending = pageIndex => this.getPendingThumbIndex(pageIndex) !== -1;
+  thumbIsPending = (pageIndex) => this.getPendingThumbIndex(pageIndex) !== -1;
 
-  onCancel = pageIndex => {
+  onCancel = (pageIndex) => {
     const index = this.getPendingThumbIndex(pageIndex);
     if (index !== -1) {
       core.cancelLoadThumbnail(this.pendingThumbs[index].id);
@@ -389,10 +428,12 @@ class ThumbnailsPanel extends React.PureComponent {
     }
   };
 
-  getPendingThumbIndex = pageIndex =>
-    this.pendingThumbs.findIndex(thumbStatus => thumbStatus.pageIndex === pageIndex);
+  getPendingThumbIndex = (pageIndex) =>
+    this.pendingThumbs.findIndex(
+      (thumbStatus) => thumbStatus.pageIndex === pageIndex
+    );
 
-  onRemove = pageIndex => {
+  onRemove = (pageIndex) => {
     this.onCancel(pageIndex);
     this.thumbs[pageIndex] = null;
   };
@@ -421,8 +462,10 @@ class ThumbnailsPanel extends React.PureComponent {
         {new Array(numberOfColumns).fill().map((_, columnIndex) => {
           const thumbIndex = index * numberOfColumns + columnIndex;
           const allowDragAndDrop =
-            allowPageOperations && (isThumbnailMergingEnabled || isThumbnailReorderingEnabled);
-          const showPlaceHolder = allowDragAndDrop && draggingOverPageIndex === thumbIndex;
+            allowPageOperations &&
+            (isThumbnailMergingEnabled || isThumbnailReorderingEnabled);
+          const showPlaceHolder =
+            allowDragAndDrop && draggingOverPageIndex === thumbIndex;
 
           return thumbIndex < this.props.totalPages ? (
             <div key={thumbIndex} onDragEnd={this.onDragEnd}>
@@ -453,7 +496,31 @@ class ThumbnailsPanel extends React.PureComponent {
     );
   };
 
-  toggleDocumentControl = shouldShowControls => {
+  renderThumbnailsHorizontally = ({ columnIndex, key, style }) => {
+    const { canLoad } = this.state;
+    const { selectedPageIndexes } = this.props;
+
+    return (
+      <div key={key} style={style} onDragEnd={this.onDragEnd}>
+        <Thumbnail
+          isDraggable={false}
+          isSelected={selectedPageIndexes.includes(columnIndex)}
+          index={columnIndex}
+          canLoad={canLoad}
+          onLoad={this.onLoad}
+          onCancel={this.onCancel}
+          onRemove={this.onRemove}
+          onDragStart={this.onDragStart}
+          onDragOver={this.onDragOver}
+          onFinishLoading={this.removeFromPendingThumbs}
+          updateAnnotations={this.updateAnnotations}
+          shouldShowControls={false}
+        />
+      </div>
+    );
+  };
+
+  toggleDocumentControl = (shouldShowControls) => {
     this.props.setSelectedPageThumbnails([]);
     this.setState({
       isDocumentControlHidden: !shouldShowControls,
@@ -475,6 +542,11 @@ class ThumbnailsPanel extends React.PureComponent {
       isThumbnailControlDisabled,
       selectedPageIndexes,
     } = this.props;
+
+    if (isDisabled) {
+      return null;
+    }
+
     const {
       height,
       width,
@@ -483,84 +555,125 @@ class ThumbnailsPanel extends React.PureComponent {
       allowPageOperations,
     } = this.state;
     const numberOfColumns = this.getNumberOfColumns(this.state.width);
-    const thumbnailHeight = isThumbnailControlDisabled ? 200 : 230;
+    const thumbnailHeight = isThumbnailControlDisabled ? 140 : 170;
 
     const shouldShowControls =
-      (allowPageOperations && !isDocumentControlHidden) || selectedPageIndexes.length > 0;
+      (allowPageOperations && !isDocumentControlHidden) ||
+      selectedPageIndexes.length > 0;
 
-    return isDisabled ? null : (
-      <div
-        className="Panel ThumbnailsPanel"
-        style={{ display }}
-        data-element="thumbnailsPanel"
-        onDrop={this.onDrop}
-      >
-        <Measure bounds onResize={this.onPanelResize}>
-          {({ measureRef }) => (
-            <div
-              ref={measureRef}
-              className="virtualized-thumbnails-container"
-              style={{
-                // when 'shouldShowControls' is true but documentControlHeight isn't set yet, add a maxHeight to keep the height from re-measuring
-                maxHeight: shouldShowControls && !documentControlHeight ? height : null,
-              }}
-            >
-              <List
+    if (isMobile()) {
+      return (
+        <div
+          className="Panel ThumbnailsPanel"
+          style={{ display }}
+          data-element="thumbnailsPanel"
+          onDrop={this.onDrop}
+        >
+          <AutoSizer disableHeight>
+            {({ width }) => (
+              <Grid
                 ref={this.listRef}
-                height={shouldShowControls ? height - documentControlHeight : height}
+                cellRenderer={this.renderThumbnailsHorizontally}
+                columnWidth={90}
+                columnCount={totalPages}
+                height={90}
+                overscanColumnCount={2}
+                rowHeight={90}
+                rowCount={1}
                 width={width}
-                rowHeight={thumbnailHeight}
-                // Round it to a whole number because React-Virtualized list library doesn't round it for us and throws errors when rendering non whole number rows
-                // use ceiling rather than floor so that an extra row can be created in case the items can't be evenly distributed between rows
-                rowCount={Math.ceil(totalPages / numberOfColumns)}
-                rowRenderer={this.renderThumbnails}
-                overscanRowCount={10}
-                className={'thumbnailsList'}
-                style={{ outline: 'none' }}
               />
-              <Measure
-                bounds
-                onResize={({ bounds }) => {
-                  this.setState({
-                    documentControlHeight: Math.ceil(bounds.height),
-                  });
+            )}
+          </AutoSizer>
+        </div>
+      );
+    } else {
+      return (
+        <div
+          className="Panel ThumbnailsPanel"
+          style={{ display }}
+          data-element="thumbnailsPanel"
+          onDrop={this.onDrop}
+        >
+          <Measure bounds onResize={this.onPanelResize}>
+            {({ measureRef }) => (
+              <div
+                ref={measureRef}
+                className="virtualized-thumbnails-container"
+                style={{
+                  // when 'shouldShowControls' is true but documentControlHeight isn't set yet, add a maxHeight to keep the height from re-measuring
+                  maxHeight:
+                    shouldShowControls && !documentControlHeight
+                      ? height
+                      : null,
                 }}
               >
-                {({ measureRef: innerMeasureRef }) => (
-                  <div ref={innerMeasureRef}>
-                    <DocumentControls
-                      toggleDocumentControl={this.toggleDocumentControl}
-                      shouldShowControls={shouldShowControls}
-                    />
-                  </div>
-                )}
-              </Measure>
-            </div>
-          )}
-        </Measure>
-      </div>
-    );
+                <List
+                  ref={this.listRef}
+                  height={
+                    shouldShowControls ? height - documentControlHeight : height
+                  }
+                  width={width}
+                  rowHeight={thumbnailHeight}
+                  // Round it to a whole number because React-Virtualized list library doesn't round it for us and throws errors when rendering non whole number rows
+                  // use ceiling rather than floor so that an extra row can be created in case the items can't be evenly distributed between rows
+                  rowCount={Math.ceil(totalPages / numberOfColumns)}
+                  rowRenderer={this.renderThumbnails}
+                  overscanRowCount={10}
+                  className={"thumbnailsList"}
+                  style={{ outline: "none" }}
+                />
+                <Measure
+                  bounds
+                  onResize={({ bounds }) => {
+                    this.setState({
+                      documentControlHeight: Math.ceil(bounds.height),
+                    });
+                  }}
+                >
+                  {({ measureRef: innerMeasureRef }) => (
+                    <div ref={innerMeasureRef}>
+                      <DocumentControls
+                        toggleDocumentControl={this.toggleDocumentControl}
+                        shouldShowControls={shouldShowControls}
+                      />
+                    </div>
+                  )}
+                </Measure>
+              </div>
+            )}
+          </Measure>
+        </div>
+      );
+    }
   }
 }
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   dispatch,
-  setSelectedPageThumbnails: pages => dispatch(actions.setSelectedPageThumbnails(pages)),
-  showWarningMessage: warning => dispatch(actions.showWarningMessage(warning)),
-  mergeDocument: (file, mergeToPage) => dispatch(mergeDocument(file, mergeToPage)),
+  setSelectedPageThumbnails: (pages) =>
+    dispatch(actions.setSelectedPageThumbnails(pages)),
+  showWarningMessage: (warning) =>
+    dispatch(actions.showWarningMessage(warning)),
+  mergeDocument: (file, mergeToPage) =>
+    dispatch(mergeDocument(file, mergeToPage)),
   mergeExternalWebViewerDocument: (viewerID, mergeToPage) =>
     dispatch(mergeExternalWebViewerDocument(viewerID, mergeToPage)),
 });
 
-const mapStateToProps = state => ({
-  isDisabled: selectors.isElementDisabled(state, 'thumbnailsPanel'),
+const mapStateToProps = (state) => ({
+  isDisabled: selectors.isElementDisabled(state, "thumbnailsPanel"),
   totalPages: selectors.getTotalPages(state),
   currentPage: selectors.getCurrentPage(state),
   selectedPageIndexes: selectors.getSelectedThumbnailPageIndexes(state),
   isThumbnailMergingEnabled: selectors.getIsThumbnailMergingEnabled(state),
-  isThumbnailReorderingEnabled: selectors.getIsThumbnailReorderingEnabled(state),
+  isThumbnailReorderingEnabled: selectors.getIsThumbnailReorderingEnabled(
+    state
+  ),
   isMultipleViewerMerging: selectors.getIsMultipleViewerMerging(state),
-  isThumbnailControlDisabled: selectors.isElementDisabled(state, 'thumbnailControl'),
+  isThumbnailControlDisabled: selectors.isElementDisabled(
+    state,
+    "thumbnailControl"
+  ),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ThumbnailsPanel);

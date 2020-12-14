@@ -10,10 +10,10 @@ import SearchOverlay from 'components/SearchOverlay';
 import MenuOverlay from 'components/MenuOverlay';
 import RedactionOverlay from 'components/RedactionOverlay';
 import StampOverlay from 'components/StampOverlay';
-import PageNavOverlay from 'components/PageNavOverlay';
 import SignatureOverlay from 'components/SignatureOverlay';
 import MeasurementOverlay from 'components/MeasurementOverlay';
 import AnnotationContentOverlay from 'components/AnnotationContentOverlay';
+import MouseTip from 'components/MouseTip';
 import ToolsOverlay from 'components/ToolsOverlay';
 import DocumentContainer from 'components/DocumentContainer';
 import LeftPanel from 'components/LeftPanel';
@@ -37,6 +37,7 @@ import CopyTextHandler from 'components/CopyTextHandler';
 import PrintHandler from 'components/PrintHandler';
 import FontHandler from 'components/FontHandler';
 import ZoomOverlay from 'components/ZoomOverlay';
+import AnnotationToolsOverlay from 'components/AnnotationToolsOverlay';
 import CreateStampModal from 'components/CreateStampModal';
 import CustomModal from 'components/CustomModal';
 
@@ -65,23 +66,24 @@ const App = ({ removeEventHandlers }) => {
       <div className="App">
         <Accessibility />
 
-        <Header />
-
         <LeftPanel />
         <SearchPanel />
 
+        <AnnotationToolsOverlay />
         <DocumentContainer />
 
+        <Header />
+        
         <SearchOverlay />
         <ViewControlsOverlay />
         <RedactionOverlay />
         <StampOverlay />
         <MenuOverlay />
         <SignatureOverlay />
-        <PageNavOverlay />
         <ZoomOverlay />
         <MeasurementOverlay />
         <AnnotationContentOverlay />
+        <MouseTip />
         <ToolsOverlay />
 
         <AnnotationPopup />

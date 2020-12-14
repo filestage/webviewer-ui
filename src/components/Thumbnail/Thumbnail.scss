@@ -6,7 +6,6 @@
   justify-content: center;
   align-items: center;
   height: calc(100% - 5px);
-  margin: 2.5px 0px;
   font-size: 12px;
   text-align: center;
   cursor: pointer;
@@ -24,22 +23,27 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    margin: 13px 10px 5px 10px;
+    margin: 10px 0;
 
-    .page-image {
-      border: 1px solid $gray20;
-    }
-
-    .annotation-image, .page-image {
+    .annotation-image {
       position: absolute;
       left: 50%;
       top: 50%;
       transform: translate(-50%, -50%);
     }
-  }
 
-  .page-label {
-    margin-top: 5px;
+    .thumbnail {
+      position: relative;
+      .page-label {
+        position: absolute;
+        right: 0;
+        bottom: 3px;
+        padding: 2.5px 5px;
+        background-color: rgba(151,151,151,0.8);
+        color: white;
+        font-weight: bold;
+      }
+    }
   }
 
   &.selected {

@@ -8,9 +8,14 @@
   --button-hover-color: #F6F6F6;
   --button-active-color: #F0F0F0;
   --text-color: #333333;
-  --icon-color: #757575;
-  --icon-active-color: #757575;
+  --icon-color: #949597;
+  --icon-active-color: #717274;
   --left-panel-width: 300px;
+}
+
+html {
+  font-family: $font-family;
+  font-size: 62.5%;
 }
 
 html, body , #app {
@@ -21,9 +26,12 @@ html, body , #app {
   margin: 0;
   padding: 0;
   overflow: hidden;
-  font-family: $font-family;
   color: #333;
   color: var(--text-color);
+}
+
+body, #app {
+  font-size: 1.4rem;
 }
 
 .App {

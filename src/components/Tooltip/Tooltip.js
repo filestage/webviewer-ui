@@ -26,7 +26,7 @@ const Tooltip = forwardRef( ({ content = '', children, hideShortcut }, forwarded
   });
   const [location, setLocation] = useState('bottom');
   const [t] = useTranslation();
-  const delayShow = 700;
+  const delayShow = 200;
   const opacityTimeout = 50;
 
   useEffect(() => {

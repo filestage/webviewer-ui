@@ -1,54 +1,79 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { useSelector, useDispatch, shallowEqual } from 'react-redux';
-import classNames from 'classnames';
+import React, { useState, useEffect, useRef } from "react";
+import { useSelector, useDispatch, shallowEqual } from "react-redux";
+import { useTranslation } from "react-i18next";
 
-import ActionButton from 'components/ActionButton';
-import CustomizablePopup from 'components/CustomizablePopup';
+import classNames from "classnames";
 
-import core from 'core';
-import { getTextPopupPositionBasedOn } from 'helpers/getPopupPosition';
-import createTextAnnotationAndSelect from 'helpers/createTextAnnotationAndSelect';
-import copyText from 'helpers/copyText';
-import useOnClickOutside from 'hooks/useOnClickOutside';
-import actions from 'actions';
-import selectors from 'selectors';
+import Button from "components/Button";
+import ActionButton from "components/ActionButton";
+import CustomizablePopup from "components/CustomizablePopup";
 
-import './TextPopup.scss';
+import core from "core";
+import { getTextPopupPositionBasedOn } from "helpers/getPopupPosition";
+import createTextAnnotationAndSelect from "helpers/createTextAnnotationAndSelect";
+import copyText from "helpers/copyText";
+import useOnClickOutside from "hooks/useOnClickOutside";
+import actions from "actions";
+import selectors from "selectors";
+
+import "./TextPopup.scss";
 
 const TextPopup = () => {
-  const [isDisabled, isOpen, popupItems] = useSelector(
-    state => [
-      selectors.isElementDisabled(state, 'textPopup'),
-      selectors.isElementOpen(state, 'textPopup'),
-      selectors.getPopupItems(state, 'textPopup'),
+  const [isDisabled, isOpen, popupItems, activeTextAnnotation] = useSelector(
+    (state) => [
+      selectors.isElementDisabled(state, "textPopup"),
+      selectors.isElementOpen(state, "textPopup"),
+      selectors.getPopupItems(state, "textPopup"),
+      selectors.getActiveTextAnnotation(state),
     ],
-    shallowEqual,
+    shallowEqual
   );
+  const [t] = useTranslation();
   const dispatch = useDispatch();
   const [position, setPosition] = useState({ left: 0, top: 0 });
+  const [isCopyFeedbackShown, setIsCopyFeedbackShown] = useState(false);
   const popupRef = useRef();
   useOnClickOutside(popupRef, () => {
-    dispatch(actions.closeElement('textPopup'));
+    dispatch(actions.closeElement("textPopup"));
   });
 
   useEffect(() => {
     if (isOpen) {
-      dispatch(actions.closeElements(['annotationPopup', 'contextMenuPopup']));
+      dispatch(actions.closeElements(["annotationPopup", "contextMenuPopup"]));
     }
   }, [dispatch, isOpen]);
 
   useEffect(() => {
-    const textSelectTool = core.getTool('TextSelect');
+    const textSelectTool = core.getTool("TextSelect");
+
     const onSelectionComplete = (startQuad, allQuads) => {
       if (popupRef.current && popupItems.length > 0) {
         setPosition(getTextPopupPositionBasedOn(allQuads, popupRef));
-        dispatch(actions.openElement('textPopup'));
+        dispatch(actions.openElement("textPopup"));
       }
     };
 
-    textSelectTool.on('selectionComplete', onSelectionComplete);
-    return () => textSelectTool.off('selectionComplete', onSelectionComplete);
+    textSelectTool.on("selectionComplete", onSelectionComplete);
+    return () => textSelectTool.off("selectionComplete", onSelectionComplete);
   }, [dispatch, popupItems]);
+
+  const isActive = (textAnnotation) => activeTextAnnotation === textAnnotation;
+
+  useEffect(() => {
+    if (isCopyFeedbackShown) {
+      const timeoutID = setTimeout(() => setIsCopyFeedbackShown(false), 1000);
+      return () => clearTimeout(timeoutID);
+    }
+  }, [isCopyFeedbackShown]);
+
+  const onCopyClick = () => {
+    if (isCopyFeedbackShown) {
+      return;
+    }
+    copyText();
+
+    setIsCopyFeedbackShown(true);
+  };
 
   return isDisabled ? null : (
     <div
@@ -61,14 +86,27 @@ const TextPopup = () => {
       data-element="textPopup"
       ref={popupRef}
       style={{ ...position }}
-      onClick={() => dispatch(actions.closeElement('textPopup'))}
     >
+      <div
+        className={classNames({
+          Overlay: true,
+          CopyFeedbackOverlay: true,
+          open: isCopyFeedbackShown,
+        })}
+        data-element="copyFeedbackOverlay"
+        style={{ right: 0, top: "100%" }}
+      >
+        {t("component.copyFeedbackOverlay")}
+      </div>
       <CustomizablePopup dataElement="textPopup">
-        <ActionButton
+        <Button
+          className={classNames({
+            "Button--green": isCopyFeedbackShown,
+          })}
           dataElement="copyTextButton"
           title="action.copy"
-          img="ic_copy_black_24px"
-          onClick={copyText}
+          img={`ic_${isCopyFeedbackShown ? "check" : "copy"}_black_24px`}
+          onClick={onCopyClick}
         />
         <ActionButton
           dataElement="textHighlightToolButton"
@@ -77,9 +115,10 @@ const TextPopup = () => {
           onClick={() =>
             createTextAnnotationAndSelect(
               dispatch,
-              Annotations.TextHighlightAnnotation,
+              Annotations.TextHighlightAnnotation
             )
           }
+          isActive={isActive("highlight")}
         />
         <ActionButton
           dataElement="textUnderlineToolButton"
@@ -88,7 +127,7 @@ const TextPopup = () => {
           onClick={() =>
             createTextAnnotationAndSelect(
               dispatch,
-              Annotations.TextUnderlineAnnotation,
+              Annotations.TextUnderlineAnnotation
             )
           }
         />
@@ -99,7 +138,7 @@ const TextPopup = () => {
           onClick={() =>
             createTextAnnotationAndSelect(
               dispatch,
-              Annotations.TextSquigglyAnnotation,
+              Annotations.TextSquigglyAnnotation
             )
           }
         />
@@ -109,17 +148,16 @@ const TextPopup = () => {
           onClick={() =>
             createTextAnnotationAndSelect(
               dispatch,
-              Annotations.TextStrikeoutAnnotation,
+              Annotations.TextStrikeoutAnnotation
             )
           }
           dataElement="textStrikeoutToolButton"
+          isActive={isActive("strikeout")}
         />
         <ActionButton
           title="tool.Link"
           img="icon-tool-link"
-          onClick={() =>
-            dispatch(actions.openElement('linkModal'))
-          }
+          onClick={() => dispatch(actions.openElement("linkModal"))}
           dataElement="linkButton"
         />
         {core.isCreateRedactionEnabled() && (
@@ -130,7 +168,7 @@ const TextPopup = () => {
             onClick={() =>
               createTextAnnotationAndSelect(
                 dispatch,
-                Annotations.RedactionAnnotation,
+                Annotations.RedactionAnnotation
               )
             }
           />

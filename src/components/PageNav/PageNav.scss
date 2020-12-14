@@ -1,0 +1,32 @@
+@import "../../constants/styles";
+@import "../../constants/overlay";
+
+.PageNav {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  color: var(--icon-color);
+
+  input {
+    padding: 0;
+    border-width: 0 0 2px;
+    border-style: dashed;
+    text-align: right;
+    font-size: 1.4rem;
+    background: transparent;
+    cursor: pointer;
+    color: var(--icon-color);
+
+    &:focus {
+      outline: none;
+    }
+  }
+
+  form {
+    padding: 6px;
+
+    @include mobile {
+      padding: 6px 0;
+    }
+  }
+}

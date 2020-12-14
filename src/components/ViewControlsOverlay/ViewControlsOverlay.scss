@@ -10,11 +10,11 @@
   }
 
   flex-direction: column;
-  top: 46px;
+  bottom: 46px;
 
   @include mobile {
     left: 8px;
-    top: calc(#{$top-bar-height-m} + 3px);
+    bottom: calc(#{$top-bar-height-m} + 3px);
   }
 
   .row {

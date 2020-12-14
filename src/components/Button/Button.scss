@@ -1,4 +1,4 @@
-@import '../../constants/styles';
+@import "../../constants/styles";
 
 .Button {
   position: relative;
@@ -38,31 +38,35 @@
   }
 
   &:hover:not(.disable) {
-    background: #F6F6F6;
-    background: var(--button-hover-color);
+    .Icon {
+      color: var(--icon-active-color);
+    }
   }
 
   &.active:not(.disable) {
-    background: #F0F0F0;
-    background: var(--button-active-color);
+    background: #f0f0f0;
 
     .Icon {
-      color: #757575;
       color: var(--icon-active-color);
     }
   }
 
   &.down-arrow:after {
-    content: '';
+    content: "";
     width: 0;
     height: 0;
     border-left: 5px solid transparent;
     border-right: 5px solid transparent;
-    border-top: 6px solid  #757575;
     border-top: 6px solid var(--icon-color);
-    
+
     @include mobile {
       font-size: 10px;
+    }
+  }
+
+  &--green {
+    .Icon {
+      color: $filestage-green !important;
     }
   }
 }

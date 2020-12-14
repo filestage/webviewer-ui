@@ -1,17 +1,21 @@
-import React from 'react';
-import classNames from 'classnames';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import React from "react";
+import classNames from "classnames";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
 
-import core from 'core';
-import { isMobile } from 'helpers/device';
-import actions from 'actions';
-import selectors from 'selectors';
-import ThumbnailControls from 'components/ThumbnailControls';
+import core from "core";
+import { isMobile } from "helpers/device";
+import actions from "actions";
+import selectors from "selectors";
+import ThumbnailControls from "components/ThumbnailControls";
 
-import './Thumbnail.scss';
+import "./Thumbnail.scss";
 
-export const THUMBNAIL_SIZE = 150;
+const THUMBNAIL_SIZE = 120;
+const THUMBNAIL_SIZE_M = 80;
+
+export const getThumbnailSize = () =>
+  isMobile() ? THUMBNAIL_SIZE_M : THUMBNAIL_SIZE;
 
 class Thumbnail extends React.PureComponent {
   static propTypes = {
@@ -50,7 +54,7 @@ class Thumbnail extends React.PureComponent {
       this.loadThumbnailAsync();
     }, 100);
 
-    core.addEventListener('layoutChanged', this.onLayoutChangedHandler);
+    core.addEventListener("layoutChanged", this.onLayoutChangedHandler);
   }
 
   componentDidUpdate(prevProps) {
@@ -66,7 +70,7 @@ class Thumbnail extends React.PureComponent {
 
   componentWillUnmount() {
     const { onRemove, index } = this.props;
-    core.removeEventListener('layoutChanged', this.onLayoutChangedHandler);
+    core.removeEventListener("layoutChanged", this.onLayoutChangedHandler);
 
     clearTimeout(this.loadThumbnailTimeout);
     onRemove(index);
@@ -80,10 +84,10 @@ class Thumbnail extends React.PureComponent {
 
     const isPageAdded = added.indexOf(currentPage) > -1;
     const didPageChange = contentChanged.some(
-      changedPage => currentPage === changedPage,
+      (changedPage) => currentPage === changedPage
     );
     const didPageMove = Object.keys(moved).some(
-      movedPage => currentPage === parseInt(movedPage),
+      (movedPage) => currentPage === parseInt(movedPage)
     );
     const isPageRemoved = removed.indexOf(currentPage) > -1;
     const newPageCount = pageLabels.length - removed.length;
@@ -108,13 +112,15 @@ class Thumbnail extends React.PureComponent {
     const pageNum = index + 1;
 
     const id = core.loadThumbnailAsync(pageNum, thumb => {
+      const thumbnailSize = getThumbnailSize();
+     
       thumb.className = 'page-image';
 
-      const ratio = Math.min(THUMBNAIL_SIZE / thumb.width, THUMBNAIL_SIZE / thumb.height);
+      const ratio = Math.min(thumbnailSize / thumb.width, thumbnailSize / thumb.height);
       thumb.style.width = `${thumb.width * ratio}px`;
       thumb.style.height = `${thumb.height * ratio}px`;
 
-      const childElement = current?.querySelector('.page-image');
+      const childElement = current?.querySelector(".page-image");
       if (childElement) {
         current.removeChild(childElement);
       }
@@ -128,10 +134,16 @@ class Thumbnail extends React.PureComponent {
     onLoad(index, this.thumbContainer.current, id);
 
     return id;
-  }
+  };
 
-  handleClick = e => {
-    const { index, closeElement, selectedPageIndexes, setSelectedPageThumbnails, isThumbnailMultiselectEnabled } = this.props;
+  handleClick = (e) => {
+    const {
+      index,
+      closeElement,
+      selectedPageIndexes,
+      setSelectedPageThumbnails,
+      isThumbnailMultiselectEnabled,
+    } = this.props;
 
     if (isThumbnailMultiselectEnabled) {
       const togglingSelectedPage = e.ctrlKey || e.metaKey;
@@ -149,26 +161,34 @@ class Thumbnail extends React.PureComponent {
 
       setSelectedPageThumbnails(updatedSelectedPages);
     } else if (isMobile()) {
-      closeElement('leftPanel');
+      closeElement("leftPanel");
     }
 
     core.setCurrentPage(index + 1);
   };
 
-  onDragStart = e => {
+  onDragStart = (e) => {
     const { index, onDragStart } = this.props;
     onDragStart(e, index);
   };
 
-  onDragOver = e => {
+  onDragOver = (e) => {
     const { index, onDragOver } = this.props;
     onDragOver(e, index);
   };
 
   render() {
-    const { index, currentPage, pageLabels, isDraggable, isSelected, shouldShowControls } = this.props;
+    const {
+      index,
+      currentPage,
+      pageLabels,
+      isDraggable,
+      isSelected,
+      shouldShowControls,
+    } = this.props;
     const isActive = currentPage === index + 1;
     const pageLabel = pageLabels[index];
+    const thumbnailSize = getThumbnailSize();
 
     return (
       <div
@@ -183,27 +203,29 @@ class Thumbnail extends React.PureComponent {
         <div
           className="container"
           style={{
-            width: THUMBNAIL_SIZE,
-            height: THUMBNAIL_SIZE,
+            width: thumbnailSize,
+            height: thumbnailSize,
           }}
-
           onDragStart={this.onDragStart}
           draggable={isDraggable}
         >
-          <div ref={this.thumbContainer} className="thumbnail" />
+          <div ref={this.thumbContainer} className="thumbnail">
+            <div className="page-label">{pageLabel}</div>
+          </div>
         </div>
-        <div className="page-label">{pageLabel}</div>
         {isActive && shouldShowControls && <ThumbnailControls index={index} />}
       </div>
     );
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   currentPage: selectors.getCurrentPage(state),
   pageLabels: selectors.getPageLabels(state),
   selectedPageIndexes: selectors.getSelectedThumbnailPageIndexes(state),
-  isThumbnailMultiselectEnabled: selectors.getIsThumbnailMultiselectEnabled(state),
+  isThumbnailMultiselectEnabled: selectors.getIsThumbnailMultiselectEnabled(
+    state
+  ),
 });
 
 const mapDispatchToProps = {
