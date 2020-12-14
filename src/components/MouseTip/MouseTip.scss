@@ -1,0 +1,6 @@
+@import "../../constants/styles";
+@import "../../constants/overlay";
+
+.MouseTip {
+  @extend %overlay--tooltip;
+}

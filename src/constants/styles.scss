@@ -4,19 +4,21 @@ $button-width: 46px;
 $button-height: 46px;
 $icon-width: 24px;
 $icon-height: 24px;
-$panel-width: 300px;
+$panel-width: 140px;
+$panel-height: 90px;
 $right-panel-width: $panel-width;
 $left-panel-width: $panel-width;
 $left-panel-width: var(--left-panel-width);
 
 // Font
-$font-family: sans-serif;
+$font-family: "Lato", sans-serif;
 
 // Mobile dimensions
 $top-bar-height-m: 42px;
 $button-width-m: 41px;
 $button-height-m: 41px;
 $search-overlay-height-m: 61px;
+$annotations-toolbar-height-m: 48px;
 
 // Colors
 $gray87: #212121;
@@ -26,20 +28,22 @@ $gray12: #e0e0e0;
 $gray10: #e6e6e6;
 $gray4: #f5f5f5;
 $white: #fff;
-$pdftron-blue: #00A5E4; //confirm that this is what we want
+$pdftron-blue: #00a5e4; //confirm that this is what we want
+$filestage-green: #13d83a;
 
 // Light theme
 $line-color: $gray10;
 $document-bg-color: $white;
 
 // Shadows
-$md-shadow1: 0 0 2px 0 rgba(0,0,0,0.14), 0 2px 2px 0 rgba(0,0,0,0.12), 0 1px 3px 0 rgba(0,0,0,0.12);
+$md-shadow1: 0 0 2px 0 rgba(0, 0, 0, 0.14), 0 2px 2px 0 rgba(0, 0, 0, 0.12),
+  0 1px 3px 0 rgba(0, 0, 0, 0.12);
 
 // Screens
 $tablet-width: 900px;
 $mobile-width: 640px;
 
-$signature-modal-shared-color: #E1E1E3;
+$signature-modal-shared-color: #e1e1e3;
 
 %open {
   &.open {
@@ -53,16 +57,21 @@ $signature-modal-shared-color: #E1E1E3;
   }
 }
 
+.row {
+  display: flex;
+  align-items: center;
+}
+
 .text-input {
   border: 1px solid grey;
   &::placeholder {
-    color:$gray12;
+    color: $gray12;
   }
   &::-webkit-input-placeholder {
-    color:$gray12;
+    color: $gray12;
   }
   &:-ms-input-placeholder {
-    color:$gray12;
+    color: $gray12;
   }
 }
 

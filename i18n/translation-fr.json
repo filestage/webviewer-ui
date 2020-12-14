@@ -39,7 +39,12 @@
     "type": "Type",
     "upload": "Télécharger",
     "link": "Lien",
-    "fileAttachmentDownload": "Télécharger le fichier joint"
+    "fileAttachmentDownload": "Télécharger le fichier joint",
+    "hideMarkers": "Cacher les marqueurs",
+    "prevPage": "Afficher la page précédente",
+    "nextPage": "Afficher la page suivante",
+    "jumpToPage": "Sauter à une page",
+    "selectToComment": "Cliquez ou sélectionnez du texte pour commenter"
   },
   "annotation": {
     "areaMeasurement": "Surface mesurée",
@@ -98,13 +103,14 @@
     "SBRejected": "Rejeté"
   },
   "component": {
+    "copyFeedbackOverlay": "Copié !",
     "freehandToolsButton": "Outils de stylo",
     "leftPanel": "Panneau de gauche",
-    "searchOverlay": "Recherche",
+    "searchOverlay": "Chercher dans le document",
     "menuOverlay": "Menu",
     "miscToolsButton": "Outils divers",
     "notesPanel": "Remarques",
-    "outlinesPanel": "Contour",
+    "outlinesPanel": "Vue Séquencier",
     "bookmarksPanel": "Signets",
     "newBookmark": "Nouveau signet",
     "bookmarkPage": "Page",
@@ -129,6 +135,7 @@
     "noAnnotations": "Ce document n'a pas d'annotations.",
     "noOutlines": "Ce document n'a pas de plan.",
     "noResults": "Aucun résultat trouvé.",
+    "resultsFound": "{{count}} résultat trouvé.",
     "notSupported": "Ce type de fichier n'est pas pris en charge.",
     "passwordRequired": "Mot de passe requis",
     "preparingToPrint": "Préparation à l'impression...",

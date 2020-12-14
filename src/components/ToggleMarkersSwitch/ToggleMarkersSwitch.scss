@@ -1,0 +1,7 @@
+.ToggleMarkersSwitch {
+  color: var(--icon-color);
+
+  &:hover {
+    color: var(--icon-active-color);
+  }
+}

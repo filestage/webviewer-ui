@@ -39,7 +39,12 @@
     "type": "Type",
     "upload": "Upload",
     "link": "Link",
-    "fileAttachmentDownload": "Download attached file"
+    "fileAttachmentDownload": "Download attached file",
+    "hideMarkers": "Hide markers",
+    "prevPage": "Show previous page",
+    "nextPage": "Show next page",
+    "jumpToPage": "Jump to a page",
+    "selectToComment": "Click or select text to leave a comment"
   },
   "annotation": {
     "areaMeasurement": "Area measurement",
@@ -54,7 +59,8 @@
     "freehand": "Free hand",
     "freehand2": "Free hand",
     "freetext": "Free text",
-    "highlight": "Highlight",
+    "freetext2": "Free text",
+    "highlight": "Highlight text",
     "highlight2": "Highlight",
     "line": "Line",
     "perimeterMeasurement": "Perimeter measurement",
@@ -66,8 +72,8 @@
     "signature": "Signature",
     "squiggly": "Squiggly",
     "stamp": "Stamp",
-    "stickyNote": "Comment",
-    "strikeout": "Strikeout",
+    "stickyNote": "Create a comment",
+    "strikeout": "Strikethrough text",
     "underline": "Underline",
     "custom": "Custom",
     "rubberStamp": "Rubber Stamp"
@@ -98,13 +104,14 @@
     "SBRejected": "Rejected"
   },
   "component": {
+    "copyFeedbackOverlay": "Copied!",
     "freehandToolsButton": "Freehand tools",
     "leftPanel": "Panel",
-    "searchOverlay": "Search",
+    "searchOverlay": "Search document",
     "menuOverlay": "Menu",
     "miscToolsButton": "Misc tools",
     "notesPanel": "Notes",
-    "outlinesPanel": "Outlines",
+    "outlinesPanel": "Document outline",
     "bookmarksPanel": "Bookmarks",
     "newBookmark": "New Bookmark",
     "bookmarkPage": "Page",
@@ -114,7 +121,7 @@
     "thumbnailsPanel": "Thumbnails",
     "toolsButton": "Tools",
     "redaction": "Redaction",
-    "viewControlsOverlay": "View controls",
+    "viewControlsOverlay": "Layout settings",
     "measurementToolsButton": "Measurement tools",
     "calibration": "Calibration",
     "createStampButton": "Create New Stamp"
@@ -129,6 +136,7 @@
     "noAnnotations": "This document has no annotations.",
     "noOutlines": "This document has no outline.",
     "noResults": "No results found.",
+    "resultsFound": "{{count}} results found.",
     "notSupported": "That file type is not supported.",
     "passwordRequired": "Password required",
     "preparingToPrint": "Preparing to print...",

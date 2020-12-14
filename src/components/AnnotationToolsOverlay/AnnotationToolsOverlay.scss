@@ -1,0 +1,83 @@
+@import "../../constants/styles";
+@import "../../constants/overlay";
+@import "../../constants/popup";
+
+.AnnotationToolsOverlay {
+  @extend %overlay;
+  width: auto;
+  top: 20px;
+  left: 50%;
+  margin-left: calc(-#{$right-panel-width} / 2 - 53px);
+  padding: 0;
+  border-radius: 5px;
+  background: transparent;
+  border-width: 0;
+  color: #f4f4f4;
+
+  .AnnotationsToolbar {
+    border-radius: 5px;
+    display: flex;
+    flex-wrap: wrap;
+    background: rgba(20, 20, 20, 0.95);
+  }
+
+  @include mobile {
+    top: calc(#{$panel-height} + 5px);
+    left: 0;
+    right: 0;
+    margin: 0;
+
+    .AnnotationsToolbar {
+      margin: 0 auto;
+    }
+  }
+
+  .Button {
+    height: $popup-button-height;
+
+    @include mobile {
+      height: $popup-button-height;
+    }
+
+    .Icon {
+      color: #f4f4f4;
+      width: $popup-icon-width;
+      height: $popup-icon-height;
+
+      @include mobile {
+        width: $popup-icon-width;
+        height: $popup-icon-height;
+      }
+    }
+
+    &:first-child {
+      border-top-left-radius: 5px;
+      border-bottom-left-radius: 5px;
+    }
+
+    &:last-child {
+      border-top-right-radius: 5px;
+      border-bottom-right-radius: 5px;
+    }
+
+    &:hover:not(.disable) {
+      background: #505050;
+
+      .Icon {
+        color: #f4f4f4;
+      }
+    }
+
+    &.active:not(.disable) {
+      background: #505050;
+
+      .Icon {
+        color: #ffffff;
+      }
+    }
+
+    &.down-arrow:after {
+      border-top: 6px solid #ffffff;
+    }
+  }
+}

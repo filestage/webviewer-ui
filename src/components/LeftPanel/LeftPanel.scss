@@ -2,12 +2,19 @@
 @import '../../constants/panel';
 
 .LeftPanel {
-  @extend %left-panel;
+  @extend %right-panel;
+
+  @include mobile {
+    flex-direction: row;
+    left: 0;
+    right: 0;
+    top: 0;
+    height: $panel-height;
+  }
 
   .left-panel-header {
     display: flex;
     align-items: center;
-    margin: 16px;
 
     .close-btn {
       cursor: pointer;
@@ -15,10 +22,7 @@
     }
 
     @include mobile {
-      margin: 0px;
-      padding: 13px 17px;
-      background-color: $white;
-      background-color: var(--primary-color);
+      display: none;
     }
   }
 

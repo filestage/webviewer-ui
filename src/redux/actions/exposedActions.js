@@ -115,6 +115,10 @@ export const setActiveHeaderGroup = headerGroup => ({
   type: 'SET_ACTIVE_HEADER_GROUP',
   payload: { headerGroup },
 });
+export const setActiveTextAnnotation = activeTextAnnotation => ({
+  type: 'SET_ACTIVE_TEXT_ANNOTATION',
+  payload: { activeTextAnnotation },
+});
 export const setActiveLeftPanel = dataElement => (dispatch, getState) => {
   const state = getState();
 

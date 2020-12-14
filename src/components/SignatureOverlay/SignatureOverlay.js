@@ -139,7 +139,9 @@ class SignatureOverlay extends React.PureComponent {
     const savedSignatures = signatureTool.getSavedSignatures();
 
     this.setState({
-      defaultSignatures: await this.getSignatureDataToStore(savedSignatures),
+      defaultSignatures: await this.getSignatureDataToStore(
+        savedSignatures.map(({ annotation }) => annotation)
+      ),
     });
   };
 

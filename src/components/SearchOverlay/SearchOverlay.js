@@ -130,6 +130,10 @@ class SearchOverlay extends React.PureComponent {
     }
   };
 
+  dismiss = () => {
+    this.props.closeElements(["searchOverlay"]);
+  };
+
   clearSearchResults = () => {
     core.clearSearchResults();
     this.props.resetSearch();
@@ -477,6 +481,9 @@ class SearchOverlay extends React.PureComponent {
                 <Icon glyph="ic_overflow_black_24px" />
               </div>
             </Tooltip>
+            <div className={`advanced ${isSearchPanelOpen ? '' : 'hidden'}`} onClick={this.dismiss}>
+              <Icon glyph="ic_close_black_24px" />
+            </div>
           </div>
           <div className={`options ${isSearchPanelOpen ? 'visible' : ''}`}>
             <div className="search-option">
@@ -514,6 +521,11 @@ class SearchOverlay extends React.PureComponent {
           </div>
           {!isSearchPanelOpen && this.state.noResultSingleSearch && searchValue !== '' && (
             <div className="no-result">{t('message.noResults')}</div>
+          )}
+          {!!results.length && (
+            <div className="no-result">
+              {t('message.resultsFound', {count: results.length})}
+            </div>
           )}
         </div>
       </div>

@@ -1,4 +1,4 @@
-@import '../../constants/styles';
+@import "../../constants/styles";
 
 .HeaderItems {
   display: flex;
@@ -32,5 +32,6 @@
 
   @include mobile {
     overflow-x: auto;
+    margin: 0;
   }
 }
