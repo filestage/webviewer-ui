@@ -121,6 +121,18 @@ class MeasurementOverlay extends React.PureComponent {
     );
   };
 
+  isMouseInsideRect = (e, overlayElement) => {
+    const overlayRect = overlayElement.getBoundingClientRect();
+    const { clientX: x, clientY: y } = e;
+
+    return (
+      x >= overlayRect.left &&
+      x <= overlayRect.right &&
+      y >= overlayRect.top &&
+      y <= overlayRect.bottom
+    );
+  };
+
   isMeasurementToolWithInfo(tool) {
     const { activeToolName } = this.props;
     return (
