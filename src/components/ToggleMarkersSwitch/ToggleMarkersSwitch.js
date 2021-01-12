@@ -4,7 +4,9 @@ import Switch from "@material-ui/core/Switch";
 import Hidden from "@material-ui/core/Hidden";
 import { createMuiTheme } from "@material-ui/core/styles";
 import { ThemeProvider } from "@material-ui/styles";
+import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { useTranslation } from "react-i18next";
+
 import Tooltip from "components/Tooltip";
 
 import core from "core";
@@ -23,30 +25,40 @@ const theme = createMuiTheme({
   },
 });
 
-const ToggleMarkersSwitch = () => {
+const renderContent = () => {
   const [t] = useTranslation();
 
   return (
-    <ThemeProvider theme={theme}>
-      <Tooltip content="action.hideMarkers">
-        <div className="ToggleMarkersSwitch">
-          <FormControlLabel
-            control={
-              <Switch
-                color="primary"
-                onChange={(evt) => {
-                  if (evt.target.checked) {
-                    core.hideAnnotations(core.getAnnotationsList());
-                  } else {
-                    core.showAnnotations(core.getAnnotationsList());
-                  }
-                }}
-              />
-            }
-            label={<Hidden smDown>{t("action.hideMarkers")}</Hidden>}
+    <div className="ToggleMarkersSwitch">
+      <FormControlLabel
+        control={
+          <Switch
+            color="primary"
+            onChange={(evt) => {
+              if (evt.target.checked) {
+                core.hideAnnotations(core.getAnnotationsList());
+              } else {
+                core.showAnnotations(core.getAnnotationsList());
+              }
+            }}
           />
-        </div>
-      </Tooltip>
+        }
+        label={<Hidden smDown>{t("action.hideMarkers")}</Hidden>}
+      />
+    </div>
+  );
+};
+
+const ToggleMarkersSwitch = () => {
+  const matches = useMediaQuery(theme.breakpoints.down("sm"));
+
+  return (
+    <ThemeProvider theme={theme}>
+      {matches ? (
+        <Tooltip content="action.hideMarkers">{renderContent()}</Tooltip>
+      ) : (
+        renderContent()
+      )}
     </ThemeProvider>
   );
 };
