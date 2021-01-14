@@ -12,6 +12,7 @@
     "group": "Group",
     "ungroup": "Ungroup",
     "download": "Download",
+    "downloadOriginal": "Download original file",
     "edit": "Edit",
     "extract": "Extract",
     "enterFullscreen": "Full screen",
@@ -213,8 +214,8 @@
       "timestampText": " Timestamp text:",
       "stampColor": "Stamp color:",
       "Username": "Username",
-      "Date":"Date",
-      "Time":"Time"
+      "Date": "Date",
+      "Time": "Time"
     },
     "status": {
       "status": "Status"
