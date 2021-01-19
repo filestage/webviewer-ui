@@ -161,3 +161,13 @@ if (window.CanvasRenderingContext2D) {
 window.addEventListener('hashchange', () => {
   window.location.reload();
 });
+
+function receiveMessage(event) {
+  if (event.isTrusted && typeof event.data === "object") {
+    const { type, keyCode } = event.data;
+
+    window.dispatchEvent(new KeyboardEvent(type, { keyCode }));
+  }
+}
+
+window.addEventListener("message", receiveMessage, false);
