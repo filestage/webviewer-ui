@@ -166,7 +166,9 @@ function receiveMessage(event) {
   if (event.isTrusted && typeof event.data === "object") {
     const { type, keyCode } = event.data;
 
-    window.dispatchEvent(new KeyboardEvent(type, { keyCode }));
+    if (type === "keyup" || type === "keydown") {
+      document.dispatchEvent(new KeyboardEvent(type, { keyCode }));
+    }
   }
 }
 
