@@ -130,16 +130,17 @@ const HotkeysManager = {
     // still allow hotkeys when focusing a textarea or an input
     hotkeys.filter = () => true;
     this.store = store;
-    this.keyHandlerMap = this.createKeyHandlerMap(store);
+    const keyHandlerMap = this.createKeyHandlerMap(store);
+    this.keyHandlerMap = keyHandlerMap;
     this.prevToolName = null;
-    Object.keys(this.keyHandlerMap).forEach(key => {
+    Object.keys(this.keyHandlerMap).forEach((key) => {
       this.on(key, this.keyHandlerMap[key]);
     });
 
     function receiveMessage(event) {
       if (event.isTrusted && typeof event.data === "object") {
         const { type, key } = event.data;
-        const handler = this.keyHandlerMap[key];
+        const handler = keyHandlerMap[key];
 
         if (handler) {
           const { keyup = NOOP, keydown = handler } = handler;
@@ -154,8 +155,8 @@ const HotkeysManager = {
         }
       }
     }
-    
-    window.addEventListener("message", receiveMessage, false);    
+
+    window.addEventListener("message", receiveMessage, false);
   },
   /**
    * Add an event handler for the given hotkey
