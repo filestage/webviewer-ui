@@ -135,6 +135,27 @@ const HotkeysManager = {
     Object.keys(this.keyHandlerMap).forEach(key => {
       this.on(key, this.keyHandlerMap[key]);
     });
+
+    function receiveMessage(event) {
+      if (event.isTrusted && typeof event.data === "object") {
+        const { type, key } = event.data;
+        const handler = this.keyHandlerMap[key];
+
+        if (handler) {
+          const { keyup = NOOP, keydown = handler } = handler;
+
+          const mockEventObject = { preventDefault: NOOP };
+
+          if (type === "keyup") {
+            keyup(mockEventObject);
+          } else if (type === "keydown") {
+            keydown(mockEventObject);
+          }
+        }
+      }
+    }
+    
+    window.addEventListener("message", receiveMessage, false);    
   },
   /**
    * Add an event handler for the given hotkey
