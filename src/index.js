@@ -5,6 +5,7 @@ import { Provider } from 'react-redux';
 import { I18nextProvider } from 'react-i18next';
 import i18next from 'i18next';
 import thunk from 'redux-thunk';
+import "constants/crossBrowser_initKeyboardEvent";
 
 import core from 'core';
 import actions from 'actions';
@@ -167,7 +168,7 @@ function receiveMessage(event) {
     const { type, keyCode } = event.data;
 
     if (type === "keyup" || type === "keydown") {
-      document.dispatchEvent(new KeyboardEvent(type, { keyCode }));
+      window.crossBrowser_initKeyboardEvent(type, { keyCode });
     }
   }
 }
