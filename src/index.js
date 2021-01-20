@@ -168,7 +168,8 @@ function receiveMessage(event) {
     const { type, keyCode } = event.data;
 
     if (type === "keyup" || type === "keydown") {
-      window.crossBrowser_initKeyboardEvent(type, { keyCode });
+      const event = window.crossBrowser_initKeyboardEvent(type, { keyCode });
+      document.dispatchEvent(event);
     }
   }
 }
