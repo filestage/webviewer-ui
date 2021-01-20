@@ -164,12 +164,15 @@ window.addEventListener('hashchange', () => {
 });
 
 function receiveMessage(event) {
+  console.log("received event ", JSON.stringify(event));
   if (event.isTrusted && typeof event.data === "object") {
     const { type, keyCode } = event.data;
+    console.log("trusted it ", type, keyCode);
 
     if (type === "keyup" || type === "keydown") {
       const event = window.crossBrowser_initKeyboardEvent(type, { keyCode });
       document.dispatchEvent(event);
+      console.log("dispatched it ", JSON.stringify(event));
     }
   }
 }
