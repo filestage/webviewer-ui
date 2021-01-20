@@ -19,16 +19,14 @@ void function() {//closure
         
         
         
-        /*
         // Safari and IE9 throw Error here due keyCode, charCode and which is readonly
         // Uncomment this code block if you need legacy properties
         delete e.keyCode;
         _Object_defineProperty(e, {writable: true, configurable: true, value: 9})
-        delete e.charCode;
-        _Object_defineProperty(e, {writable: true, configurable: true, value: 9})
-        delete e.which;
-        _Object_defineProperty(e, {writable: true, configurable: true, value: 9})
-        */
+        // delete e.charCode;
+        // _Object_defineProperty(e, {writable: true, configurable: true, value: 9})
+        // delete e.which;
+        // _Object_defineProperty(e, {writable: true, configurable: true, value: 9})
         
         return ((e["keyIdentifier"] || e["key"]) == "+" && (e["keyLocation"] || e["location"]) == 3) && (
           e.ctrlKey ?
