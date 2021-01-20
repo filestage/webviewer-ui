@@ -5,6 +5,7 @@ import { Provider } from 'react-redux';
 import { I18nextProvider } from 'react-i18next';
 import i18next from 'i18next';
 import thunk from 'redux-thunk';
+import "constants/crossBrowser_initKeyboardEvent";
 
 import core from 'core';
 import actions from 'actions';
@@ -161,3 +162,16 @@ if (window.CanvasRenderingContext2D) {
 window.addEventListener('hashchange', () => {
   window.location.reload();
 });
+
+function receiveMessage(event) {
+  if (event.isTrusted && typeof event.data === "object") {
+    const { type, keyCode } = event.data;
+
+    if (type === "keyup" || type === "keydown") {
+      const event = window.crossBrowser_initKeyboardEvent(type, { keyCode });
+      document.dispatchEvent(event);
+    }
+  }
+}
+
+window.addEventListener("message", receiveMessage, false);
