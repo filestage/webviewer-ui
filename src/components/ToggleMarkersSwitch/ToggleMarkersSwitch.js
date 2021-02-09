@@ -30,21 +30,7 @@ const renderContent = () => {
 
   return (
     <div className="ToggleMarkersSwitch">
-      <FormControlLabel
-        control={
-          <Switch
-            color="primary"
-            onChange={(evt) => {
-              if (evt.target.checked) {
-                core.hideAnnotations(core.getAnnotationsList());
-              } else {
-                core.showAnnotations(core.getAnnotationsList());
-              }
-            }}
-          />
-        }
-        label={<Hidden smDown>{t("action.hideMarkers")}</Hidden>}
-      />
+      {t("action.hideMarkers")}
     </div>
   );
 };
